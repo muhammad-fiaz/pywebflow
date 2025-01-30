@@ -1,0 +1,52 @@
+# Python Bytecode
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.dylib
+
+# Distribution / Packaging
+.Python
+env/
+venv/
+*.egg-info/
+dist/
+build/
+*.tar.gz
+*.whl
+*.zip
+
+# PyInstaller
+*.spec
+
+# Unit test / coverage reports
+.coverage
+.tox/
+.nox/
+.coverage.*
+*.log
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*~
+*.bak
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# PyCharm
+.idea/
+
+# macOS Finder attributes
+.DS_Store
+
+# Windows installer files
+Thumbs.db
+
+# VSCode
+.vscode/
+/node_modules/
+/package.json/frontend/dist/

@@ -1,0 +1,13 @@
+{
+  "name": "pywebflow-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start:frontend": "bun run --cwd packages/frontend dev",
+    "build:frontend": "bun run --cwd packages/frontend build",
+    "lint:frontend": "bun run --cwd packages/frontend lint",
+    "preview:frontend": "bun run --cwd packages/frontend preview"
+  }
+}

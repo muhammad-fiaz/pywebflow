@@ -1,0 +1,64 @@
+[project]
+name = "pywebflow"
+version = "0.0.0"
+description = "A Python-based web framework to create node-based workflows."
+license = { file = "LICENSE", content-type = "text/plain" }
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.9"
+keywords = ["pywebflow", "workflow", "node", "fastapi", "uvicorn", "python", "web", "framework"]
+maintainers = [
+    {name="Muhammad Fiaz", email="contact@muhammadfiaz.com"}
+]
+authors = [
+    {name = "Muhammad Fiaz", email = "contact@muhammadfiaz.com"}
+]
+
+classifiers = [
+    "Programming Language :: Python",
+]
+
+dependencies = [
+    "fastapi>=0.115.6,<0.116.0",
+    "hatchling>=1.27.0",
+    "uvicorn>=0.34.0,<0.35.0",
+]
+
+[project.urls]
+source = "https://github.com/muhammadfiaz/pynodeflow.git"
+homepage = "https://github.com/muhammadfiaz/pynodeflow#readme"
+documentation = "https://github.com/muhammadfiaz/pynodeflow#readme"
+repository = "https://github.com/muhammadfiaz/pynodeflow"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.4",
+]
+
+[tool.uv.pip]
+extra = ["dev"]
+python = "3.12"
+output-file = "requirements.txt"
+
+[dependency-groups]
+dev = [
+    "hatchling>=1.27.0",
+    "pytest>=8.3.4",
+]
+
+[tool.uv]
+cache-keys = [{ file = "requirements.txt" }]
+
+[project.gui-scripts]
+pynodeflow = "webflow.main:app"
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+    "frontend/dist/*",
+    "README.md",
+    "LICENSE"
+]
