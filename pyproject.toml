@@ -37,10 +37,10 @@ dependencies = [
 ]
 
 [project.urls]
-source = "https://github.com/muhammadfiaz/pynodeflow.git"
-homepage = "https://github.com/muhammadfiaz/pynodeflow#readme"
-documentation = "https://github.com/muhammadfiaz/pynodeflow#readme"
-repository = "https://github.com/muhammadfiaz/pynodeflow"
+source = "https://github.com/muhammad-fiaz/pywebflow.git"
+homepage = "https://github.com/muhammad-fiaz/pywebflow#readme"
+documentation = "https://github.com/muhammad-fiaz/pywebflow#readme"
+repository = "https://github.com/muhammad-fiaz/pywebflow"
 
 [project.optional-dependencies]
 dev = [
