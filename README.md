@@ -5,7 +5,7 @@
 <h1 align="center">PyWebflow</h1>
 
 <p align="center">
-  <a href="https://github.com/muhammad-fiaz/pywebflow/stars">
+  <a href="https://github.com/muhammad-fiaz/pywebflow/stargazers">
     <img src="https://img.shields.io/github/stars/muhammad-fiaz/pywebflow?style=social" alt="GitHub stars" />
   </a>
   <a href="https://github.com/muhammad-fiaz/pywebflow/issues">
@@ -56,8 +56,8 @@ pip install pywebflow
 
 We **welcome contributions**! Please follow these steps:
 
-1. **Review** the [Code of Conduct](CODE_OF_CONDUCT.md).
-2. **Check** our [Contributing Guide](CONTRIBUTING.md).
+1. **Review** the [Code of Conduct](https://github.com/muhammad-fiaz/pywebflow/blob/main/CODE_OF_CONDUCT.md).
+2. **Check** our [Contributing Guide](https://github.com/muhammad-fiaz/pywebflow/blob/main/CONTRIBUTING.md).
 3. **Fork & Submit** a Pull Request.
 
 📌 **Discussions & Support**  
