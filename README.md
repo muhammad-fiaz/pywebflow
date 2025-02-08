@@ -14,6 +14,15 @@
   <a href="https://github.com/muhammad-fiaz/pywebflow/network/members">
     <img src="https://img.shields.io/github/forks/muhammad-fiaz/pywebflow?style=social" alt="GitHub forks" />
   </a>
+  <a href="https://github.com/muhammad-fiaz/pywebflow/commits/main">
+    <img src="https://img.shields.io/github/last-commit/muhammad-fiaz/pywebflow?style=flat" alt="Last Commit" />
+  </a>
+  <a href="https://github.com/muhammad-fiaz/pywebflow/actions/workflows/github-code-scanning/codeql">
+    <img src="https://github.com/muhammad-fiaz/pywebflow/actions/workflows/github-code-scanning/codeql/badge.svg" alt="CodeQl" />
+  </a>
+  <a href="https://codecov.io/gh/muhammad-fiaz/pywebflow">
+    <img src="https://img.shields.io/codecov/c/github/muhammad-fiaz/pywebflow?style=flat" alt="Code Coverage" />
+  </a>
   <a href="https://github.com/muhammad-fiaz/pywebflow/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/muhammad-fiaz/pywebflow" alt="License" />
   </a>
@@ -23,7 +32,32 @@
   <a href="https://pypi.org/project/pywebflow/">
     <img src="https://img.shields.io/pypi/dm/pywebflow" alt="PyPI downloads" />
   </a>
+  <a href="https://github.com/muhammad-fiaz/pywebflow/actions/workflows/dependabot/dependabot-updates">
+    <img src="https://github.com/muhammad-fiaz/pywebflow/actions/workflows/dependabot/dependabot-updates/badge.svg" alt="Dependabot Updates" />
+  </a>
+  <a href="https://github.com/muhammad-fiaz/pywebflow/commits/main">
+    <img src="https://img.shields.io/github/last-commit/muhammad-fiaz/pywebflow?style=flat" alt="Last Commit" />
+  </a>
+  <a href="https://github.com/muhammad-fiaz/pywebflow/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/muhammad-fiaz/pywebflow?style=flat" alt="Contributors" />
+</a>
+<a href="https://github.com/muhammad-fiaz">
+    <img src="https://img.shields.io/github/followers/muhammad-fiaz?label=Follow&style=social" alt="Follow me on GitHub" />
+  </a>
+  <a href="https://discord.gg/eMcMEA6Jce">
+    <img src="https://img.shields.io/badge/Discord-Join%20us-7289DA?logo=discord&style=flat-square" alt="Discord" />
+  </a>
+
+  <br>
+<br>
+  <a href="https://github.com/sponsors/muhammad-fiaz" target="_blank">
+    <img style="height: 30px;" src="https://img.shields.io/badge/Sponsor-%231EAEDB.svg?&style=for-the-badge&logo=GitHub-Sponsors&logoColor=white" alt="Sponsor Muhammad Fiaz" />
+  </a>
+  <a href="https://ko-fi.com/F1F6MME1W">
+    <img style="height: 30px;" src="https://ko-fi.com/img/githubbutton_sm.svg" alt="ko-fi" />
+  </a>
 </p>
+
 
 ## 🚀 About PyWebflow
 
