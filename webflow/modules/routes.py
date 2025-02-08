@@ -57,10 +57,3 @@ def get_edges():
     ]
     return edges
 
-@router.get("/api/metadata/{page}", response_model=Metadata)
-async def get_metadata(page: str):
-    metadata = page_metadata.get(page)
-    if metadata:
-        return metadata
-    else:
-        return JSONResponse(status_code=404, content={"message": "Page not found"})

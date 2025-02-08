@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite';
 import path from 'path'
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,11 +11,10 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src')
     }
   },
-   server: {
+  server: {
     proxy: {
-      '/api/nodes': 'https://127.0.01:8000',
-        '/api/edges': 'https://127.0.01:8000',
+      '/api/nodes': 'http://127.0.0.1:8000',
+      '/api/edges': 'http://127.0.0.1:8000',
     },
   },
-
 })

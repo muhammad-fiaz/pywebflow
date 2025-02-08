@@ -1,13 +1,11 @@
 @use "tailwindcss";
+@use 'variables';
 
-$font-stack: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-$line-height: 1.5;
-$font-weight: 400;
 
 :root {
-  font-family: $font-stack;
-  line-height: $line-height;
-  font-weight: $font-weight;
+  font-family: variables.$font-stack;
+  line-height: variables.$line-height;
+  font-weight: variables.$font-weight;
 }
 
 html,

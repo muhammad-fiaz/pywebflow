@@ -1,43 +1,63 @@
-import { useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import {
-  ReactFlow,
+  addEdge,
   Background,
+  BackgroundVariant,
+  Connection,
   Controls,
   MiniMap,
-  addEdge,
-  useNodesState,
+  ReactFlow,
   useEdgesState,
-  type OnConnect,
+  useNodesState,
 } from '@xyflow/react';
+import { getNodes } from './api/nodes.ts';
+import { getEdges } from './api/edges.ts';
 
 import '@xyflow/react/dist/style.css';
 
-import { initialNodes, nodeTypes } from './nodes';
-import { initialEdges, edgeTypes } from './edges';
-
 export default function App() {
-  const [nodes, , onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const onConnect: OnConnect = useCallback(
-    (connection) => setEdges((edges) => addEdge(connection, edges)),
-    [setEdges]
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  useEffect(() => {
+    const fetchNodesAndEdges = async () => {
+      const fetchedNodes = await getNodes();
+      const fetchedEdges = await getEdges();
+      setNodes(fetchedNodes.map((node: { id: never; position: never; label: never; }) => ({
+        id: node.id,
+        position: node.position,
+        data: { label: node.label },
+      })));
+      setEdges(fetchedEdges.map((edge: { id: never; source: never; target: never; }) => ({
+        id: edge.id,
+        source: edge.source,
+        target: edge.target,
+      })));
+    };
+
+    fetchNodesAndEdges();
+  }, [setNodes, setEdges]);
+
+  const onConnect = useCallback(
+    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges],
   );
 
   return (
-    <ReactFlow
-      nodes={nodes}
-      nodeTypes={nodeTypes}
-      onNodesChange={onNodesChange}
-      edges={edges}
-      edgeTypes={edgeTypes}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-      fitView
-              proOptions={{ hideAttribution: true }}
-    >
-      <Background />
-      <MiniMap />
-      <Controls />
-    </ReactFlow>
+    <div style={{ width: '100vw', height: '100vh' }}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        fitView
+        proOptions={{ hideAttribution: true }}
+      >
+        <Controls />
+        <MiniMap />
+        <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
+      </ReactFlow>
+    </div>
   );
 }
