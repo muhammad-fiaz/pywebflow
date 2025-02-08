@@ -5,35 +5,32 @@ description = "A Python-based web framework to create flow-based workflows."
 license = { file = "LICENSE", content-type = "text/plain" }
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.9"
-keywords = ["pywebflow", "workflow", "uvicorn", "flow","python", "web", "framework"]
+keywords = ["pywebflow", "workflow", "uvicorn", "flow", "python", "web", "framework"]
 maintainers = [
-    {name="Muhammad Fiaz", email="contact@muhammadfiaz.com"}
+  { name = "Muhammad Fiaz", email = "contact@muhammadfiaz.com" }
 ]
 authors = [
-    {name = "Muhammad Fiaz", email = "contact@muhammadfiaz.com"}
+  { name = "Muhammad Fiaz", email = "contact@muhammadfiaz.com" }
 ]
-
 classifiers = [
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "License :: OSI Approved :: Apache Software License",
-    "Operating System :: OS Independent",
-    "Development Status :: 1 - Planning",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Information Technology",
-    "Intended Audience :: Science/Research",
-    "Topic :: Software Development :: Libraries",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Development Status :: 1 - Planning",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "Intended Audience :: Science/Research",
+  "Topic :: Software Development :: Libraries"
 ]
-
 dependencies = [
-    "fastapi>=0.115.6,<0.116.0",
-    "hatchling>=1.27.0",
-    "uvicorn>=0.34.0,<0.35.0",
+  "fastapi>=0.115.6,<0.116.0",
+  "uvicorn>=0.34.0,<0.35.0"
 ]
 
 [project.urls]
@@ -44,8 +41,37 @@ repository = "https://github.com/muhammad-fiaz/pywebflow"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.3.4",
+  "pytest>=8.3.4"
 ]
+
+[tool.hatch.build.targets.sdist]
+ignore-vcs = true
+
+[project.gui-scripts]
+pywebflow = "webflow.main:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+  "webflow/**/*",
+  "README.md",
+  "LICENSE"
+]
+
+[tool.hatch.build.targets.wheel]
+only-packages = true
+artifacts = [
+  "*.js",
+  "*.css",
+  "*.html",
+  "*.ico",
+  "*.lottie"
+]
+
+
 
 [tool.uv.pip]
 extra = ["dev"]
@@ -54,25 +80,9 @@ output-file = "requirements.txt"
 
 [dependency-groups]
 dev = [
-    "hatchling>=1.27.0",
-    "pytest>=8.3.4",
-    "ruff>=0.9.5",
+  "pytest>=8.3.4",
+  "ruff>=0.9.5"
 ]
 
 [tool.uv]
 cache-keys = [{ file = "requirements.txt" }]
-
-[project.gui-scripts]
-pynodeflow = "webflow.main:app"
-
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.hatch.build]
-include = [
-    "frontend/dist/*",
-    "README.md",
-    "LICENSE"
-]

@@ -8,6 +8,7 @@
     "start:frontend": "bun run --cwd packages/frontend dev",
     "build:frontend": "bun run --cwd packages/frontend build",
     "lint:frontend": "bun run --cwd packages/frontend lint",
-    "preview:frontend": "bun run --cwd packages/frontend preview"
+    "preview:frontend": "bun run --cwd packages/frontend preview",
+    "prepare": "husky"
   }
 }
