@@ -51,3 +51,4 @@ Thumbs.db
 /node_modules/
 /package.json/frontend/dist/
 webflow/frontend/dist/
+/test_run.py
