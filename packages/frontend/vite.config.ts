@@ -11,6 +11,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+    build: {
+    outDir: path.resolve(__dirname, '../../webflow/frontend/dist'),
+  },
   server: {
     proxy: {
       '/api/nodes': 'http://127.0.0.1:8000',
