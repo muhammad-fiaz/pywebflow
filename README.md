@@ -27,8 +27,8 @@
 
 ## 🚀 About PyWebflow
 
-**PyWebflow** is a Python-based web framework for creating **node-based workflows**.  
-It allows users to easily build and manage node-based projects using Python.
+**PyWebflow** is a Python-based web framework for creating **Flow-based workflows**.  
+It allows users to easily build and manage node-based projects using Native Python.
 
 > ⚠️ **Note:** This project is still in development and is not yet ready for production use.
 
