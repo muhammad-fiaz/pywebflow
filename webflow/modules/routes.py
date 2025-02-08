@@ -4,6 +4,7 @@ from typing import Optional, Dict
 
 router = APIRouter()
 
+
 class NodeData(BaseModel):
     id: str
     label: str
@@ -15,6 +16,7 @@ class EdgeData(BaseModel):
     source: str
     target: str
 
+
 @router.get("/api/nodes", response_model=list[NodeData])
 def get_nodes():
     nodes = [
@@ -22,7 +24,6 @@ def get_nodes():
             "id": "1",
             "label": "Node 1",
             "position": {"x": 0, "y": 0},
-
         },
         {
             "id": "2",
@@ -36,6 +37,7 @@ def get_nodes():
         },
     ]
     return nodes
+
 
 @router.get("/api/edges", response_model=list[EdgeData])
 def get_edges():

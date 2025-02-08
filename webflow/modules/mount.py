@@ -3,6 +3,7 @@ import os
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
 
+
 def mount_static_files(app: FastAPI):
     """
     Mount the static files (like React build files) into the FastAPI app.
@@ -13,4 +14,6 @@ def mount_static_files(app: FastAPI):
     if os.path.isdir(static_dir):
         app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
     else:
-        print(f"Warning: Static directory '{static_dir}' not found. Skipping mounting of static files.")
+        print(
+            f"Warning: Static directory '{static_dir}' not found. Skipping mounting of static files."
+        )
