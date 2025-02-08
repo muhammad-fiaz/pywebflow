@@ -1,10 +1,10 @@
 [project]
 name = "pywebflow"
 version = "0.0.0"
-description = "A Python-based web framework to create node-based workflows."
+description = "A Python-based web framework to create flow-based workflows."
 license = { file = "LICENSE", content-type = "text/plain" }
 readme = { file = "README.md", content-type = "text/markdown" }
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 keywords = ["pywebflow", "workflow", "uvicorn", "flow","python", "web", "framework"]
 maintainers = [
     {name="Muhammad Fiaz", email="contact@muhammadfiaz.com"}
