@@ -1,4 +1,5 @@
 # nodeflow/modules/mount.py
+import os
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
 
@@ -9,4 +10,10 @@ def mount_static_files(app: FastAPI):
 
     :param app: The FastAPI application instance
     """
-    app.mount("/", StaticFiles(directory="packages/frontend/dist", html=True), name="static")
+    static_dir = "packages/frontend/dist"
+    if os.path.isdir(static_dir):
+        app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
+    else:
+        print(
+            f"Warning: Static directory '{static_dir}' not found. Skipping mounting of static files."
+        )

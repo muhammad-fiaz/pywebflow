@@ -1,0 +1,16 @@
+@use "tailwindcss";
+@use '../styles/variables';
+
+
+:root {
+  font-family: variables.$font-stack;
+  line-height: variables.$line-height;
+  font-weight: variables.$font-weight;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
