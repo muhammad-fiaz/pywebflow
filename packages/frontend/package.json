@@ -9,9 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.0.4",
     "@tailwindcss/vite": "^4.0.4",
     "@xyflow/react": "^12.4.2",
     "axios": "^1.7.9",
+    "postcss": "^8.5.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5",

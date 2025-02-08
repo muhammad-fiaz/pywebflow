@@ -5,7 +5,7 @@ description = "A Python-based web framework to create node-based workflows."
 license = { file = "LICENSE", content-type = "text/plain" }
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.9"
-keywords = ["pywebflow", "workflow", "node", "fastapi", "uvicorn", "python", "web", "framework"]
+keywords = ["pywebflow", "workflow", "uvicorn", "flow","python", "web", "framework"]
 maintainers = [
     {name="Muhammad Fiaz", email="contact@muhammadfiaz.com"}
 ]
