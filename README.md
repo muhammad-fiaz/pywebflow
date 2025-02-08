@@ -25,15 +25,49 @@
   </a>
 </p>
 
+## 🚀 About PyWebflow
 
-pywebflow is a Python-based web framework to create node-based workflows. It allows users to easily build and manage node-based projects using Python.
+**PyWebflow** is a Python-based web framework for creating **node-based workflows**.  
+It allows users to easily build and manage node-based projects using Python.
 
-> Note: This project is still in development and is not yet ready for production use.
+> ⚠️ **Note:** This project is still in development and is not yet ready for production use.
 
-## Contributing
+---
 
-Contributions are welcome! Please feel free to submit a Pull Request or open an issue if you have any suggestions or improvements.
+## 📌 Features
 
-## License
+✅ Node-based workflow creation  
+✅ Easy integration with Python applications  
+✅ Open-source & actively maintained  
 
-This project is licensed under the Apache-2.0 License. See the [LICENSE](LICENSE) file for details.
+---
+
+## 🛠️ Installation
+
+Install PyWebflow using **pip**:
+
+```sh
+pip install pywebflow
+```
+
+---
+
+## 🏗️ Contributing
+
+We **welcome contributions**! Please follow these steps:
+
+1. **Review** the [Code of Conduct](CODE_OF_CONDUCT.md).
+2. **Check** our [Contributing Guide](CONTRIBUTING.md).
+3. **Fork & Submit** a Pull Request.
+
+📌 **Discussions & Support**  
+- **GitHub Discussions:** [Join here](https://github.com/muhammad-fiaz/pywebflow/discussions)  
+- **Discord Community:** [Join here](https://discord.gg/Kpm7frtu)  
+
+---
+
+## 📜 License
+
+This project is licensed under the **Apache-2.0 License**.  
+See the full license in the [LICENSE](LICENSE) file.
+
