@@ -17,6 +17,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5",
+    "sass": "^1.84.0",
     "tailwindcss": "^4.0.4"
   },
   "license": "apache-2.0",
