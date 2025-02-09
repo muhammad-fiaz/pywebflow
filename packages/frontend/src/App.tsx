@@ -10,12 +10,11 @@ import {
 } from '@xyflow/react';
 import { getNodes } from './api/nodes.ts';
 import { getEdges } from './api/edges.ts';
-
 import Loading from './components/Loading';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import ControlsComp from './components/Controls';
 import { useTheme } from 'next-themes';
-import {EdgeData, NodeData} from "./utils/types.ts";
+import { EdgeData, NodeData } from "./utils/types.ts";
 import MinimapComp from "./components/Minimap.tsx";
 
 export default function App() {
@@ -23,9 +22,8 @@ export default function App() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Using next-themes hook to manage the theme
-  const { theme, resolvedTheme } = useTheme();
-  const currentTheme = theme || resolvedTheme || 'light';
+  const { theme, systemTheme } = useTheme();
+  const currentTheme = theme === 'system' ? systemTheme : theme;
 
   useEffect(() => {
     const fetchNodesAndEdges = async () => {
@@ -56,29 +54,26 @@ export default function App() {
       );
     };
 
-    fetchNodesAndEdges();
-  }, [setNodes, setEdges]);
+    fetchNodesAndEdges().then(r => r);
+  }, []);
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges],
+    [setEdges]
   );
 
-  // Simulate a loading delay of 3 seconds.
+  // Simulate a loading delay
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
-
     return () => clearTimeout(timer);
   }, []);
 
   return isLoading ? (
     <Loading />
   ) : (
-    // Apply the theme as a class on the container
-    <div style={{ width: '100vw', height: '100vh' }}>
-      {/* ThemeSwitcher uses next-themes to toggle the theme */}
+    <div className={`${currentTheme} w-full h-full`}>
       <ThemeSwitcher />
       <ReactFlow
         colorMode={currentTheme === 'dark' ? 'dark' : 'light'}
@@ -91,8 +86,8 @@ export default function App() {
         minZoom={0.1}
         proOptions={{ hideAttribution: true }}
       >
-          <ControlsComp/>
-          <MinimapComp/>
+        <ControlsComp />
+        <MinimapComp />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
     </div>

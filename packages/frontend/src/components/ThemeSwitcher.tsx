@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
 const ThemeSwitcher: React.FC = () => {
-  const { theme, setTheme, resolvedTheme } = useTheme();
-  // Use the theme value if available, otherwise fall back to resolvedTheme.
-  const currentTheme = theme || resolvedTheme;
+  const { theme, setTheme, systemTheme } = useTheme();
+  const currentTheme = theme === 'system' ? systemTheme : theme;
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; // Avoid hydration mismatch issues
 
   return (
-    <div className="absolute top-4 right-4 z-50 text-foreground">
+    <div className="absolute top-4 right-4 z-50">
       <button
         onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')}
         className="p-2 focus:outline-none"
