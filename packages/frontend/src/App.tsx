@@ -1,73 +1,29 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import {
   addEdge,
   Background,
   BackgroundVariant,
   Connection,
-  Controls,
-  MiniMap,
   ReactFlow,
   useEdgesState,
   useNodesState,
 } from '@xyflow/react';
 import { getNodes } from './api/nodes.ts';
 import { getEdges } from './api/edges.ts';
-
 import Loading from './components/Loading';
 import ThemeSwitcher from './components/ThemeSwitcher';
+import ControlsComp from './components/Controls';
 import { useTheme } from 'next-themes';
-
-export interface NodeData {
-  id: string;
-  label: string;
-  position: { x: number; y: number };
-  type?: string;
-  selected?: boolean;
-  isConnectable?: boolean;
-  zIndex?: number;
-  positionAbsoluteX?: number;
-  positionAbsoluteY?: number;
-  dragging?: boolean;
-  targetPosition?: string;
-  sourcePosition?: string;
-}
-
-export interface EdgeData {
-  id: string;
-  animated: boolean;
-  data: string | string[];
-  style: React.CSSProperties;
-  selected: boolean;
-  source: string;
-  target: string;
-  sourceHandleId?: string | null;
-  targetHandleId?: string | null;
-  interactionWidth: number;
-  sourceX: number;
-  sourceY: number;
-  targetX: number;
-  targetY: number;
-  sourcePosition: string;
-  targetPosition: string;
-  label?: string | React.ReactNode;
-  labelStyle?: React.CSSProperties;
-  labelShowBg?: boolean;
-  labelBgStyle?: React.CSSProperties;
-  labelBgPadding?: [number, number];
-  labelBgBorderRadius?: number;
-  markerStart?: string;
-  markerEnd?: string;
-  pathOptions?: string;
-}
+import { EdgeData, NodeData } from './utils/types.ts';
+import MinimapComp from './components/Minimap.tsx';
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Using next-themes hook to manage the theme
-  const { theme, resolvedTheme } = useTheme();
-  const currentTheme = theme || resolvedTheme || 'light';
+  const { theme, systemTheme } = useTheme();
+  const currentTheme = theme === 'system' ? systemTheme : theme;
 
   useEffect(() => {
     const fetchNodesAndEdges = async () => {
@@ -98,29 +54,26 @@ export default function App() {
       );
     };
 
-    fetchNodesAndEdges();
-  }, [setNodes, setEdges]);
+    fetchNodesAndEdges().then((r) => r);
+  }, []);
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),
     [setEdges],
   );
 
-  // Simulate a loading delay of 3 seconds.
+  // Simulate a loading delay
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
-
     return () => clearTimeout(timer);
   }, []);
 
   return isLoading ? (
     <Loading />
   ) : (
-    // Apply the theme as a class on the container
-    <div style={{ width: '100vw', height: '100vh' }}>
-      {/* ThemeSwitcher uses next-themes to toggle the theme */}
+    <div className={`${currentTheme} w-full h-full`}>
       <ThemeSwitcher />
       <ReactFlow
         colorMode={currentTheme === 'dark' ? 'dark' : 'light'}
@@ -133,8 +86,8 @@ export default function App() {
         minZoom={0.1}
         proOptions={{ hideAttribution: true }}
       >
-        <Controls />
-        <MiniMap />
+        <ControlsComp />
+        <MinimapComp />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
     </div>

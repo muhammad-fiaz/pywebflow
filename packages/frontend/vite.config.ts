@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import tailwindcss from '@tailwindcss/vite';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
@@ -13,6 +12,16 @@ export default defineConfig({
   },
   build: {
     outDir: path.resolve(__dirname, '../../webflow/frontend/dist'),
+    emptyOutDir: true,
+    minify: 'esbuild',
+    sourcemap: false,
+    cssCodeSplit: true,
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
   },
   server: {
     proxy: {
