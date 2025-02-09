@@ -1,10 +1,7 @@
-import React from "react";
-import {Controls} from "@xyflow/react";
+import React from 'react';
+import { Controls } from '@xyflow/react';
 
 const ControlsComp: React.FC = () => {
-    return (
-          <Controls />
-
-    );
-}
+  return <Controls />;
+};
 export default ControlsComp;

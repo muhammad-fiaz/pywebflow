@@ -14,8 +14,8 @@ import Loading from './components/Loading';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import ControlsComp from './components/Controls';
 import { useTheme } from 'next-themes';
-import { EdgeData, NodeData } from "./utils/types.ts";
-import MinimapComp from "./components/Minimap.tsx";
+import { EdgeData, NodeData } from './utils/types.ts';
+import MinimapComp from './components/Minimap.tsx';
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -54,12 +54,12 @@ export default function App() {
       );
     };
 
-    fetchNodesAndEdges().then(r => r);
+    fetchNodesAndEdges().then((r) => r);
   }, []);
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
+    [setEdges],
   );
 
   // Simulate a loading delay
