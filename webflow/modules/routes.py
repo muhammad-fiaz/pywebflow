@@ -1,9 +1,18 @@
+import datetime
+
 from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Optional, Dict
 
 router = APIRouter()
 
+@router.get("/api/status")
+async def get_status():
+    return {
+        "status": "online",
+        "message": "Server is running smoothly",
+        "timestamp": datetime.datetime.now().isoformat()
+    }
 
 class NodeData(BaseModel):
     id: str

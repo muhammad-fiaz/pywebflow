@@ -52,3 +52,4 @@ Thumbs.db
 /package.json/frontend/dist/
 webflow/frontend/dist/
 /test_run.py
+/packages/frontend/stats.html

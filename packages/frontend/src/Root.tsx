@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import Layout from './Layout.tsx';
 import './styles/index.scss';
 import '@xyflow/react/dist/style.css';
+import '@radix-ui/themes/styles.css';
+import '@mantine/core/styles.css';
+import { MantineProvider } from '@mantine/core';
 
 import { ThemeProvider } from 'next-themes';
+import { Theme } from '@radix-ui/themes';
 
 const Root = () => {
   const [mounted, setMounted] = useState(false);
@@ -20,7 +24,9 @@ const Root = () => {
       enableSystem
       disableTransitionOnChange
     >
-      {mounted && <App />}
+      <MantineProvider>
+        <Theme>{mounted && <Layout />}</Theme>
+      </MantineProvider>
     </ThemeProvider>
   );
 };

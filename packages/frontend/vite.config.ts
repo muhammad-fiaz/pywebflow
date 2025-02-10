@@ -1,15 +1,17 @@
-import { defineConfig } from 'vite';
+import { defineConfig, PluginOption } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import tailwindcss from '@tailwindcss/vite';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), visualizer() as PluginOption],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
   },
+
   build: {
     outDir: path.resolve(__dirname, '../../webflow/frontend/dist'),
     emptyOutDir: true,
@@ -27,6 +29,7 @@ export default defineConfig({
     proxy: {
       '/api/nodes': 'http://127.0.0.1:8000',
       '/api/edges': 'http://127.0.0.1:8000',
+      '/api/status': 'http://127.0.0.1:8000',
     },
   },
 });
