@@ -1,24 +1,34 @@
-import React, { Suspense } from 'react';
+'use client';
 
-// Preload the DotLottieReact module immediately.
-const preloadDotLottie = import('@lottiefiles/dotlottie-react');
+import React from 'react';
+import { Progress } from './ui/progress.tsx';
 
-// Use React.lazy with the preloaded promise.
-const DotLottieReact = React.lazy(() =>
-  preloadDotLottie.then((mod) => ({ default: mod.DotLottieReact })),
-);
+type LoadingProps = {
+  progress: number;
+  isServerConnected: boolean;
+};
 
-const Loading: React.FC = () => {
+const Loading: React.FC<LoadingProps> = ({ progress, isServerConnected }) => {
   return (
-    <div className="loading-container flex justify-center items-center h-screen">
-      <Suspense fallback={null}>
-        <DotLottieReact
-          src="/assets/loading.lottie"
-          loop
-          autoplay
-          style={{ width: '200px', height: '200px' }}
+    <div className="fixed inset-0 flex flex-col justify-center items-center">
+      <h1 className="text-7xl font-extrabold tracking-wider font-[cursive]">
+        PyWebflow
+      </h1>
+
+      {/* Loading Progress Bar */}
+      <div className="absolute bottom-[20%] w-80 flex flex-col items-center">
+        <Progress
+          value={progress}
+          className="w-full h-4 rounded-full overflow-hidden transition-all duration-500 ease-out"
         />
-      </Suspense>
+
+        {/* Server disconnect message appears below without shifting progress */}
+        {!isServerConnected && (
+          <p className="mt-2 text-sm text-red-500 font-medium animate-pulse text-center absolute top-full">
+            Oh no! It looks like the server is not started... Retrying again.
+          </p>
+        )}
+      </div>
     </div>
   );
 };
