@@ -1,6 +1,6 @@
 [project]
 name = "pywebflow"
-version = "0.0.0"
+version = "0.0.1"
 description = "A Python-based web framework to create flow-based workflows."
 license = { file = "LICENSE", content-type = "text/plain" }
 readme = { file = "README.md", content-type = "text/markdown" }
@@ -47,8 +47,6 @@ dev = [
 [tool.hatch.build.targets.sdist]
 ignore-vcs = true
 
-[project.gui-scripts]
-pywebflow = "webflow.main:app"
 
 [build-system]
 requires = ["hatchling"]
@@ -57,6 +55,7 @@ build-backend = "hatchling.build"
 [tool.hatch.build]
 include = [
   "webflow/**/*",
+  "pywebflow/**/*",
   "README.md",
   "LICENSE"
 ]
@@ -68,7 +67,6 @@ artifacts = [
   "*.css",
   "*.html",
   "*.ico",
-  "*.lottie"
 ]
 
 

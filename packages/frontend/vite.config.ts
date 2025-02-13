@@ -11,8 +11,25 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
-
   build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react-dom')) {
+              return 'react-dom';
+            }
+            if (id.includes('@radix-ui')) {
+              return 'radix-ui';
+            }
+            if (id.includes('react')) {
+              return 'react';
+            }
+            return 'vendor';
+          }
+        },
+      },
+    },
     outDir: path.resolve(__dirname, '../../webflow/frontend/dist'),
     emptyOutDir: true,
     minify: 'esbuild',
