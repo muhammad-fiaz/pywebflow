@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, List, Optional
 
+
 class NodeData(BaseModel):
     id: str
     label: str
@@ -21,6 +22,7 @@ class NodeData(BaseModel):
 
     class Config:
         exclude_none = True
+
 
 class EdgeData(BaseModel):
     id: str
@@ -52,17 +54,39 @@ class EdgeData(BaseModel):
     class Config:
         exclude_none = True
 
+
+class Metadata(BaseModel):
+    title: str
+    description: Optional[str] = None
+    keywords: Optional[str] = None
+    author: Optional[str] = None
+    viewport: Optional[str] = None
+    charset: Optional[str] = None
+    robots: Optional[str] = None
+    canonical: Optional[str] = None
+    ogTitle: Optional[str] = None
+    ogDescription: Optional[str] = None
+    ogUrl: Optional[str] = None
+    ogImage: Optional[str] = None
+
+
 def ensure_initialized(method):
     def wrapper(cls, *args, **kwargs):
         if not hasattr(cls, "initialized") or not cls.initialized:
             cls.initialize()
         return method(cls, *args, **kwargs)
+
     return wrapper
+
 
 class WebFlow:
     app = FastAPI()
     nodes: List[NodeData] = []
     edges: List[EdgeData] = []
+    metadata: Metadata = Metadata(
+        title="PyWebflow",
+        description="Webflow application"
+    )
     initialized = False
 
     @classmethod
@@ -93,6 +117,11 @@ class WebFlow:
         cls.edges.append(edge)
 
     @classmethod
+    @ensure_initialized
+    def set_metadata(cls, title: str, **kwargs):
+        cls.metadata = Metadata(title=title, **kwargs)
+
+    @classmethod
     def launch(cls, host: str = "127.0.0.1", port: int = 8000, reload: bool = True):
         cls.initialize()
         import uvicorn
@@ -110,7 +139,6 @@ class WebFlow:
                 "timestamp": datetime.datetime.now().isoformat(),
             }
 
-        # Use response_model_exclude_none=True to exclude None values
         @cls.router.get(
             "/api/nodes",
             response_model=List[NodeData],
@@ -126,6 +154,12 @@ class WebFlow:
         )
         async def get_edges():
             return cls.edges
+
+        @cls.router.get("/api/metadata", response_model=Metadata)
+        async def get_metadata():
+            # Return the current metadata
+            return cls.metadata
+
 
 # Initialize the router and FastAPI app
 WebFlow.create_router()
