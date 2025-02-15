@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import getMetadata, { Metadata } from '../api/metadata';
-
 const MetaData: React.FC = () => {
   const [metadata, setMetadata] = useState<Metadata>({
     title: 'PyWebflow',
