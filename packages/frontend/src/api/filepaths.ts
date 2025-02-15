@@ -8,12 +8,14 @@ export const loadAssets = async () => {
     // Prefetch and inject CSS files
     if (css.length > 0) {
       css.forEach((href: string) => {
-        const link = document.createElement('link');
-        link.rel = 'prefetch';
-        link.href = href;
-        link.as = 'style';
-        document.head.appendChild(link);
+        // Prefetch CSS
+        const prefetchLink = document.createElement('link');
+        prefetchLink.rel = 'prefetch';
+        prefetchLink.href = href;
+        prefetchLink.as = 'style';
+        document.head.appendChild(prefetchLink);
 
+        // Inject CSS
         const styleLink = document.createElement('link');
         styleLink.rel = 'stylesheet';
         styleLink.href = href;
@@ -24,12 +26,14 @@ export const loadAssets = async () => {
     // Prefetch and inject JS files
     if (js.length > 0) {
       js.forEach((src: string) => {
-        const link = document.createElement('link');
-        link.rel = 'prefetch';
-        link.href = src;
-        link.as = 'script';
-        document.head.appendChild(link);
+        // Prefetch JS
+        const prefetchLink = document.createElement('link');
+        prefetchLink.rel = 'prefetch';
+        prefetchLink.href = src;
+        prefetchLink.as = 'script';
+        document.head.appendChild(prefetchLink);
 
+        // Inject JS
         const script = document.createElement('script');
         script.type = 'module';
         script.src = src;
@@ -40,11 +44,11 @@ export const loadAssets = async () => {
     // Prefetch HTML files
     if (html.length > 0) {
       html.forEach((href: string) => {
-        const link = document.createElement('link');
-        link.rel = 'prefetch';
-        link.href = href;
-        link.as = 'document';
-        document.head.appendChild(link);
+        const prefetchLink = document.createElement('link');
+        prefetchLink.rel = 'prefetch';
+        prefetchLink.href = href;
+        prefetchLink.as = 'document';
+        document.head.appendChild(prefetchLink);
       });
     }
 

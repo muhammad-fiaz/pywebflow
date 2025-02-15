@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import getMetadata, { Metadata } from '../api/metadata';
-import {loadAssets} from "../api/filepaths.ts";
 const MetaData: React.FC = () => {
   const [metadata, setMetadata] = useState<Metadata>({
     title: 'PyWebflow',
     description: 'Webflow application',
   });
-  useEffect(() => {
-    loadAssets();
-  }, []);
+
   useEffect(() => {
     const fetchMetadata = async () => {
       try {
