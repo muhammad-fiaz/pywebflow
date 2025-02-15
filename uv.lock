@@ -97,6 +97,17 @@ wheels = [
 ]
 
 [[package]]
+name = "logly"
+version = "0.0.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "colorama" },
+    { name = "packaging" },
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/53/f6/b8cb0f9d9895569890d8eead7dc478fcb585ba9450f1d7be071ff353b5de/logly-0.0.7.tar.gz", hash = "sha256:98ca5efeb42245f7ce8c211fa28fc775ebe09b6b88cdc72cb3c3de2a49ec8371", size = 17332 }
+
+[[package]]
 name = "packaging"
 version = "24.2"
 source = { registry = "https://pypi.org/simple" }
@@ -248,6 +259,7 @@ version = "0.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
+    { name = "logly" },
     { name = "uvicorn" },
 ]
 
@@ -265,6 +277,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fastapi", specifier = ">=0.115.6,<0.116.0" },
+    { name = "logly", specifier = ">=0.0.7" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.4" },
     { name = "uvicorn", specifier = ">=0.34.0,<0.35.0" },
 ]

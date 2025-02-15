@@ -62,14 +62,14 @@
     "react-remark": "^2.1.0",
     "react-router-dom": "^7.1.5",
     "recharts": "^2.15.1",
-    "sass": "^1.84.0",
+    "sass": "^1.85.0",
     "tailwind-merge": "^3.0.1",
     "tailwindcss": "^4.0.6",
     "tailwindcss-animate": "^1.0.7"
   },
   "license": "apache-2.0",
   "devDependencies": {
-    "@types/node": "^22.13.2",
+    "@types/node": "^22.13.4",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@typescript-eslint/eslint-plugin": "^8.24.0",

@@ -1,8 +1,13 @@
 import datetime
-from fastapi import APIRouter, FastAPI
+import os
+from pathlib import Path
+from fastapi import APIRouter, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, FileResponse
 from pydantic import BaseModel
 from typing import Dict, List, Optional
+
+from webflow.modules.mount import mount_static_files
 
 
 class NodeData(BaseModel):
@@ -38,7 +43,6 @@ class EdgeData(BaseModel):
     sourceX: Optional[float] = None
     sourceY: Optional[float] = None
     targetX: Optional[float] = None
-    targetY: Optional[float] = None
     sourcePosition: Optional[str] = None
     targetPosition: Optional[str] = None
     label: Optional[str] = None
@@ -72,10 +76,9 @@ class Metadata(BaseModel):
 
 def ensure_initialized(method):
     def wrapper(cls, *args, **kwargs):
-        if not hasattr(cls, "initialized") or not cls.initialized:
+        if not cls.initialized:
             cls.initialize()
         return method(cls, *args, **kwargs)
-
     return wrapper
 
 
@@ -83,25 +86,26 @@ class WebFlow:
     app = FastAPI()
     nodes: List[NodeData] = []
     edges: List[EdgeData] = []
-    metadata: Metadata = Metadata(
-        title="PyWebflow",
-        description="Webflow application"
-    )
+    metadata: Metadata = Metadata(title="PyWebflow", description="Webflow application")
+    custom_css: List[str] = []
+    custom_js: List[str] = []
+    custom_html: List[str] = []
+    static_dir: Optional[str] = None
     initialized = False
 
     @classmethod
     def initialize(cls):
         if cls.initialized:
             return
-        # Set up CORS middleware
         cls.app.add_middleware(
             CORSMiddleware,
-            allow_origins=["*"],  # Consider restricting in production
+            allow_origins=["*"],
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
         )
         cls.app.include_router(cls.router)
+        mount_static_files(cls.app, static_dir=cls.static_dir)
         cls.initialized = True
 
     @classmethod
@@ -122,6 +126,50 @@ class WebFlow:
         cls.metadata = Metadata(title=title, **kwargs)
 
     @classmethod
+    def set_static_directory(cls, directory: str):
+        """Set the directory where CSS & JS files are stored."""
+        absolute_directory = Path(directory)
+        if absolute_directory.exists():
+            mount_static_files(cls.app, static_dir=str(absolute_directory.resolve()))
+            cls.static_dir = str(absolute_directory.resolve())
+        else:
+            raise ValueError(f"Directory {absolute_directory} does not exist.")
+
+    @classmethod
+    def set_custom_css(cls, path: str):
+        abs_path = f"/static/{path}"
+        cls.custom_css.append(abs_path)
+
+    @classmethod
+    def set_custom_js(cls, path: str):
+        abs_path = f"/static/{path}"
+        cls.custom_js.append(abs_path)
+
+    @classmethod
+    def set_custom_html(cls, path: str):
+        abs_path = f"/static/{path}"
+        cls.custom_html.append(abs_path)
+
+    @classmethod
+    def serve_file(cls, filename: str):
+        if not cls.static_dir:
+            raise HTTPException(status_code=500, detail="Static directory not set")
+        file_path = Path(cls.static_dir) / filename
+        if file_path.exists():
+            # Determine media type based on file extension
+            media_type = "application/octet-stream"
+            if file_path.suffix == ".css":
+                media_type = "text/css"
+            elif file_path.suffix == ".js":
+                media_type = "application/javascript"
+            elif file_path.suffix == ".html":
+                media_type = "text/html"
+            return FileResponse(str(file_path), media_type=media_type)
+        else:
+            print(f"Warning: {filename} not found in the static directory.")
+            raise HTTPException(status_code=404, detail=f"{filename} not found")
+
+    @classmethod
     def launch(cls, host: str = "127.0.0.1", port: int = 8000, reload: bool = True):
         cls.initialize()
         import uvicorn
@@ -139,28 +187,38 @@ class WebFlow:
                 "timestamp": datetime.datetime.now().isoformat(),
             }
 
-        @cls.router.get(
-            "/api/nodes",
-            response_model=List[NodeData],
-            response_model_exclude_none=True,
-        )
+        @cls.router.get("/api/nodes", response_model=List[NodeData], response_model_exclude_none=True)
         async def get_nodes():
             return cls.nodes
 
-        @cls.router.get(
-            "/api/edges",
-            response_model=List[EdgeData],
-            response_model_exclude_none=True,
-        )
+        @cls.router.get("/api/edges", response_model=List[EdgeData], response_model_exclude_none=True)
         async def get_edges():
             return cls.edges
 
         @cls.router.get("/api/metadata", response_model=Metadata)
         async def get_metadata():
-            # Return the current metadata
             return cls.metadata
 
+        @cls.router.get("/api/filepaths")
+        async def get_file_paths():
+            # This endpoint could still return dynamic paths if needed
+            if not cls.custom_css:
+                print("Warning: No CSS files found.")
+            if not cls.custom_js:
+                print("Warning: No JS files found.")
+            if not cls.custom_html:
+                print("Warning: No HTML files found.")
+            return JSONResponse(
+                content={
+                    "css": cls.custom_css,
+                    "js": cls.custom_js,
+                    "html": cls.custom_html
+                }
+            )
 
-# Initialize the router and FastAPI app
+        @cls.router.get("/static/{filename:path}")
+        async def get_static_file(filename: str):
+            return cls.serve_file(filename)
+
 WebFlow.create_router()
 WebFlow.initialize()

@@ -20,6 +20,7 @@ const Root = () => {
 
   return (
     <HelmetProvider>
+                <MetaData />
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
@@ -28,7 +29,6 @@ const Root = () => {
       >
         <MantineProvider>
           <Theme>
-            <MetaData />
             {mounted && <Layout />}
           </Theme>
         </MantineProvider>
@@ -41,6 +41,8 @@ export default Root;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+
+
     <Root />
   </React.StrictMode>,
 );
