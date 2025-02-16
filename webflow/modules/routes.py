@@ -6,8 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
 from typing import Dict, List, Optional
 
-from  logly import logly
-
+from webflow.logly import logly
 from webflow.modules.mount import mount_static_files
 from webflow.modules.types import NodeData, EdgeData, Metadata
 
