@@ -10,12 +10,15 @@ from webflow.logly import logly
 from webflow.modules.mount import mount_static_files
 from webflow.modules.types import NodeData, EdgeData, Metadata
 
+
 def ensure_initialized(method):
     def wrapper(cls, *args, **kwargs):
         if not cls.initialized:
             cls.initialize()
         return method(cls, *args, **kwargs)
+
     return wrapper
+
 
 class WebFlow_API:
     app = FastAPI()
@@ -51,14 +54,14 @@ class WebFlow_API:
 
         if cls.static_dir:
             static_path = Path(cls.static_dir)
-            for file_path in static_path.rglob('*'):
+            for file_path in static_path.rglob("*"):
                 if file_path.is_file():
                     relative_path = file_path.relative_to(static_path)
-                    if file_path.suffix == '.css':
+                    if file_path.suffix == ".css":
                         cls.custom_css.append(f"/static/{relative_path}")
-                    elif file_path.suffix == '.js':
+                    elif file_path.suffix == ".js":
                         cls.custom_js.append(f"/static/{relative_path}")
-                    elif file_path.suffix == '.html':
+                    elif file_path.suffix == ".html":
                         cls.custom_html.append(f"/static/{relative_path}")
 
     @classmethod
@@ -148,6 +151,7 @@ class WebFlow_API:
     def launch(cls, host: str = "127.0.0.1", port: int = 8000, reload: bool = True):
         cls.initialize()
         import uvicorn
+
         uvicorn.run(cls.app, host=host, port=port, reload=reload)
 
     @classmethod
@@ -162,11 +166,19 @@ class WebFlow_API:
                 "timestamp": datetime.datetime.now().isoformat(),
             }
 
-        @cls.router.get("/api/nodes", response_model=List[NodeData], response_model_exclude_none=True)
+        @cls.router.get(
+            "/api/nodes",
+            response_model=List[NodeData],
+            response_model_exclude_none=True,
+        )
         async def get_nodes():
             return cls.nodes
 
-        @cls.router.get("/api/edges", response_model=List[EdgeData], response_model_exclude_none=True)
+        @cls.router.get(
+            "/api/edges",
+            response_model=List[EdgeData],
+            response_model_exclude_none=True,
+        )
         async def get_edges():
             return cls.edges
 
@@ -203,7 +215,7 @@ class WebFlow_API:
                 content={
                     "css": cls.custom_css,
                     "js": cls.custom_js,
-                    "html": cls.custom_html
+                    "html": cls.custom_html,
                 }
             )
 
@@ -212,6 +224,7 @@ class WebFlow_API:
             return cls.serve_file(filename)
 
         cls.app.include_router(cls.router)
+
 
 WebFlow_API.create_router()
 WebFlow_API.initialize()
