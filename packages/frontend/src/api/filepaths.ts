@@ -3,7 +3,7 @@ import axios from 'axios';
 export const loadAssets = async () => {
   try {
     const response = await axios.get('/api/filepaths');
-    const { css = [], js = [], html = [] } = response.data;
+    const { css = [], js = [], html = {} } = response.data;
 
     // Prefetch and inject CSS files
     if (css.length > 0) {
@@ -41,18 +41,10 @@ export const loadAssets = async () => {
       });
     }
 
-    // Prefetch HTML files
-    if (html.length > 0) {
-      html.forEach((href: string) => {
-        const prefetchLink = document.createElement('link');
-        prefetchLink.rel = 'prefetch';
-        prefetchLink.href = href;
-        prefetchLink.as = 'document';
-        document.head.appendChild(prefetchLink);
-      });
-    }
+    return html;
 
   } catch (error) {
     console.error('Error loading assets:', error);
+    return {};
   }
 };
