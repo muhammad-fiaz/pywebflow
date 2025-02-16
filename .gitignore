@@ -54,3 +54,4 @@ webflow/frontend/dist/
 /test_run.py
 /packages/frontend/stats.html
 
+/log.txt

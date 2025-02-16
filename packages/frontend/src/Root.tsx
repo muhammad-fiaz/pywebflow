@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
 import './styles/index.scss';
 import '@xyflow/react/dist/style.css';
@@ -9,21 +10,28 @@ import { MantineProvider } from '@mantine/core';
 import { ThemeProvider } from 'next-themes';
 import { Theme } from '@radix-ui/themes';
 import { HelmetProvider } from 'react-helmet-async';
-import MetaData from "./components/Metadata.tsx";
-import {loadAssets} from "./api/filepaths.ts";
+import MetaData from './components/Metadata';
+import { loadAssets } from './api/filepaths';
 
 const Root = () => {
   const [mounted, setMounted] = useState(false);
+  const [, setHtmlPages] = useState<string[]>([]);
+
   useEffect(() => {
-    loadAssets();
+    const load = async () => {
+      const html = await loadAssets();
+      setHtmlPages(html);
+    };
+    load();
   }, []);
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
   return (
     <HelmetProvider>
-                <MetaData />
+      <MetaData />
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
@@ -32,7 +40,13 @@ const Root = () => {
       >
         <MantineProvider>
           <Theme>
-            {mounted && <Layout />}
+            {mounted && (
+              <Router>
+                <Routes>
+                  <Route path="/" element={<Layout />} />
+                </Routes>
+              </Router>
+            )}
           </Theme>
         </MantineProvider>
       </ThemeProvider>
@@ -44,8 +58,6 @@ export default Root;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-
-
     <Root />
   </React.StrictMode>,
 );

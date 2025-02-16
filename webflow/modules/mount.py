@@ -2,6 +2,9 @@ import os
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
 
+from webflow.logly import logly
+
+
 def mount_static_files(app: FastAPI, static_dir=None):
     """
     Mount the static files (like React build files) into the FastAPI app.
@@ -27,6 +30,6 @@ def mount_static_files(app: FastAPI, static_dir=None):
     if os.path.isdir(static_dir):
         app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
     else:
-        print(
-            f"Warning: Static directory '{static_dir}' not found. Skipping mounting of static files."
+        logly.warn(
+            f"Static directory '{static_dir}' not found. Skipping mounting of static files."
         )

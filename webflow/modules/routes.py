@@ -6,14 +6,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
 from typing import Dict, List, Optional
 
+from webflow.logly import logly
 from webflow.modules.mount import mount_static_files
 from webflow.modules.types import NodeData, EdgeData, Metadata
+
 
 def ensure_initialized(method):
     def wrapper(cls, *args, **kwargs):
         if not cls.initialized:
             cls.initialize()
         return method(cls, *args, **kwargs)
+
     return wrapper
 
 
@@ -27,6 +30,7 @@ class WebFlow_API:
     custom_html: List[str] = []
     static_dir: Optional[str] = None
     initialized = False
+    router = APIRouter()
 
     @classmethod
     def initialize(cls):
@@ -50,14 +54,14 @@ class WebFlow_API:
 
         if cls.static_dir:
             static_path = Path(cls.static_dir)
-            for file_path in static_path.rglob('*'):
+            for file_path in static_path.rglob("*"):
                 if file_path.is_file():
                     relative_path = file_path.relative_to(static_path)
-                    if file_path.suffix == '.css':
+                    if file_path.suffix == ".css":
                         cls.custom_css.append(f"/static/{relative_path}")
-                    elif file_path.suffix == '.js':
+                    elif file_path.suffix == ".js":
                         cls.custom_js.append(f"/static/{relative_path}")
-                    elif file_path.suffix == '.html':
+                    elif file_path.suffix == ".html":
                         cls.custom_html.append(f"/static/{relative_path}")
 
     @classmethod
@@ -91,41 +95,40 @@ class WebFlow_API:
     @classmethod
     def set_custom_css(cls, path: str):
         if not cls.static_dir:
-            print("Warning: Static directory not set.")
+            logly.warn("Static directory not set.")
             return
         abs_path = Path(cls.static_dir) / path
         if not abs_path.exists():
-            print(f"Warning: CSS file {path} not found.")
+            logly.warn(f"CSS file {path} not found.")
             return
         cls.custom_css.append(f"/static/{path}")
 
     @classmethod
     def set_custom_js(cls, path: str):
         if not cls.static_dir:
-            print("Warning: Static directory not set.")
+            logly.warn("Static directory not set.")
             return
         abs_path = Path(cls.static_dir) / path
         if not abs_path.exists():
-            print(f"Warning: JS file {path} not found.")
+            logly.warn(f"JS file {path} not found.")
             return
         cls.custom_js.append(f"/static/{path}")
-
 
     @classmethod
     def set_custom_html(cls, path: str):
         if not cls.static_dir:
-            print("Warning: Static directory not set.")
+            logly.warn("Static directory not set.")
             return
         abs_path = Path(cls.static_dir) / path
         if not abs_path.exists():
-            print(f"Warning: HTML file {path} not found.")
+            logly.warn(f"HTML file {path} not found.")
             return
         cls.custom_html.append(f"/static/{path}")
 
     @classmethod
     def serve_file(cls, filename: str):
         if not cls.static_dir:
-            print("Warning: Static directory not set.")
+            logly.warn("Static directory not set.")
             raise HTTPException(status_code=500, detail="Static directory not set")
         file_path = Path(cls.static_dir) / filename
         if file_path.exists():
@@ -141,13 +144,14 @@ class WebFlow_API:
             headers = {"Cache-Control": "no-cache, no-store, must-revalidate"}
             return FileResponse(str(file_path), media_type=media_type, headers=headers)
         else:
-            print(f"Warning: {filename} not found in the static directory.")
+            logly.warn(f"{filename} not found in the static directory.")
             raise HTTPException(status_code=404, detail=f"{filename} not found")
 
     @classmethod
     def launch(cls, host: str = "127.0.0.1", port: int = 8000, reload: bool = True):
         cls.initialize()
         import uvicorn
+
         uvicorn.run(cls.app, host=host, port=port, reload=reload)
 
     @classmethod
@@ -162,11 +166,19 @@ class WebFlow_API:
                 "timestamp": datetime.datetime.now().isoformat(),
             }
 
-        @cls.router.get("/api/nodes", response_model=List[NodeData], response_model_exclude_none=True)
+        @cls.router.get(
+            "/api/nodes",
+            response_model=List[NodeData],
+            response_model_exclude_none=True,
+        )
         async def get_nodes():
             return cls.nodes
 
-        @cls.router.get("/api/edges", response_model=List[EdgeData], response_model_exclude_none=True)
+        @cls.router.get(
+            "/api/edges",
+            response_model=List[EdgeData],
+            response_model_exclude_none=True,
+        )
         async def get_edges():
             return cls.edges
 
@@ -193,17 +205,17 @@ class WebFlow_API:
                     warnings["html"].append(path)
 
             if warnings["css"]:
-                print(f"Warning: CSS files not found: {warnings['css']}")
+                logly.warn(f"CSS files not found: {warnings['css']}")
             if warnings["js"]:
-                print(f"Warning: JS files not found: {warnings['js']}")
+                logly.warn(f"JS files not found: {warnings['js']}")
             if warnings["html"]:
-                print(f"Warning: HTML files not found: {warnings['html']}")
+                logly.warn(f"HTML files not found: {warnings['html']}")
 
             return JSONResponse(
                 content={
                     "css": cls.custom_css,
                     "js": cls.custom_js,
-                    "html": cls.custom_html
+                    "html": cls.custom_html,
                 }
             )
 
@@ -212,6 +224,7 @@ class WebFlow_API:
             return cls.serve_file(filename)
 
         cls.app.include_router(cls.router)
+
 
 WebFlow_API.create_router()
 WebFlow_API.initialize()
