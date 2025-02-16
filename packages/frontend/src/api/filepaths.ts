@@ -42,7 +42,6 @@ export const loadAssets = async () => {
     }
 
     return html;
-
   } catch (error) {
     console.error('Error loading assets:', error);
     return {};

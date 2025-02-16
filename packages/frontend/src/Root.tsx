@@ -10,8 +10,8 @@ import { MantineProvider } from '@mantine/core';
 import { ThemeProvider } from 'next-themes';
 import { Theme } from '@radix-ui/themes';
 import { HelmetProvider } from 'react-helmet-async';
-import MetaData from "./components/Metadata";
-import { loadAssets } from "./api/filepaths";
+import MetaData from './components/Metadata';
+import { loadAssets } from './api/filepaths';
 
 const Root = () => {
   const [mounted, setMounted] = useState(false);
