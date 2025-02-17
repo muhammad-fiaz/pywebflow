@@ -19,7 +19,7 @@ idna==3.10
     # via anyio
 iniconfig==2.0.0
     # via pytest
-logly @ git+https://github.com/muhammad-fiaz/logly.git@6c5297b39e5659fff9c8d02a909ea2955180e607
+logly @ git+https://github.com/muhammad-fiaz/logly.git@9920c22e118facaa5f3145df0a9b4b9e9b9a8839
     # via pywebflow (pyproject.toml)
 markdown-it-py==3.0.0
     # via rich
