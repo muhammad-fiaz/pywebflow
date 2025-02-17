@@ -9,6 +9,7 @@ click==8.1.8
 colorama==0.4.6
     # via
     #   click
+    #   logly
     #   pytest
 fastapi==0.115.6
     # via pywebflow (pyproject.toml)
@@ -18,15 +19,29 @@ idna==3.10
     # via anyio
 iniconfig==2.0.0
     # via pytest
+logly @ git+https://github.com/muhammad-fiaz/logly.git@6c5297b39e5659fff9c8d02a909ea2955180e607
+    # via pywebflow (pyproject.toml)
+markdown-it-py==3.0.0
+    # via rich
+mdurl==0.1.2
+    # via markdown-it-py
 packaging==24.2
     # via pytest
 pluggy==1.5.0
     # via pytest
 pydantic==2.10.4
-    # via fastapi
+    # via
+    #   fastapi
+    #   logly
 pydantic-core==2.27.2
     # via pydantic
+pygments==2.19.1
+    # via rich
 pytest==8.3.4
+    # via pywebflow (pyproject.toml)
+rich==13.9.4
+    # via logly
+ruff==0.9.6
     # via pywebflow (pyproject.toml)
 sniffio==1.3.1
     # via anyio
