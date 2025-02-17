@@ -1,6 +1,6 @@
 [project]
 name = "pywebflow"
-version = "0.0.1"
+dynamic = ["version"]
 description = "A Python-based web framework to create flow-based workflows."
 license = { file = "LICENSE", content-type = "text/plain" }
 readme = { file = "README.md", content-type = "text/markdown" }
@@ -30,8 +30,8 @@ classifiers = [
 ]
 dependencies = [
   "fastapi>=0.115.6,<0.116.0",
+  "logly",
   "uvicorn>=0.34.0,<0.35.0",
-  "logly>=0.0.7",
 ]
 
 [project.urls]
@@ -42,12 +42,12 @@ repository = "https://github.com/muhammad-fiaz/pywebflow"
 
 [project.optional-dependencies]
 dev = [
-  "pytest>=8.3.4"
+  "pytest>=8.3.4",
+  "hatchling>=0.1.0",
 ]
 
 [tool.hatch.build.targets.sdist]
 ignore-vcs = true
-
 
 [build-system]
 requires = ["hatchling"]
@@ -70,12 +70,13 @@ artifacts = [
   "*.ico",
 ]
 
-
-
 [tool.uv.pip]
 extra = ["dev"]
 python = "3.12"
 output-file = "requirements.txt"
+
+[tool.uv.sources]
+logly = { git = "https://github.com/muhammad-fiaz/logly.git", rev = "6c5297b39e5659fff9c8d02a909ea2955180e607" }
 
 [dependency-groups]
 dev = [
@@ -85,3 +86,8 @@ dev = [
 
 [tool.uv]
 cache-keys = [{ file = "requirements.txt" }]
+
+[tool.hatch.version]
+source = "git"
+fallback = "0.0.1"
+version_format = "{tag}"
