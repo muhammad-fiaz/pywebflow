@@ -30,9 +30,10 @@ classifiers = [
 ]
 dependencies = [
   "fastapi>=0.115.6,<0.116.0",
+  "logly",
   "uvicorn>=0.34.0,<0.35.0",
-  "logly>=0.0.7",
 ]
+
 
 [project.urls]
 source = "https://github.com/muhammad-fiaz/pywebflow.git"
@@ -76,6 +77,10 @@ artifacts = [
 extra = ["dev"]
 python = "3.12"
 output-file = "requirements.txt"
+
+[tool.uv.sources]
+logly = { git = "https://github.com/muhammad-fiaz/logly.git" }
+
 
 [dependency-groups]
 dev = [
