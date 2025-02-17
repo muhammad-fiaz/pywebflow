@@ -30,9 +30,12 @@ classifiers = [
 ]
 dependencies = [
   "fastapi>=0.115.6,<0.116.0",
-  "logly",
+  "logly @ git+https://github.com/muhammad-fiaz/logly.git@9920c22e118facaa5f3145df0a9b4b9e9b9a8839",
   "uvicorn>=0.34.0,<0.35.0",
 ]
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [project.urls]
 source = "https://github.com/muhammad-fiaz/pywebflow.git"
@@ -79,7 +82,7 @@ python = "3.12"
 output-file = "requirements.txt"
 
 [tool.uv.sources]
-logly = { git = "https://github.com/muhammad-fiaz/logly.git", rev = "6c5297b39e5659fff9c8d02a909ea2955180e607" }
+logly = { git = "https://github.com/muhammad-fiaz/logly.git", rev = "9920c22e118facaa5f3145df0a9b4b9e9b9a8839" }
 
 [dependency-groups]
 dev = [

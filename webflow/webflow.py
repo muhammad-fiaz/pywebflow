@@ -42,6 +42,7 @@ def launch():
     args = parse_arguments()
 
     # Log launch details using Logly.
+    logly.Config(color_enabled=True)
     logly.info(
         "Launching application",
         f"Host: {args.host}, Port: {args.port}, Reload: {args.reload}",
