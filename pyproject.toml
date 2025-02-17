@@ -79,7 +79,7 @@ python = "3.12"
 output-file = "requirements.txt"
 
 [tool.uv.sources]
-logly = { git = "https://github.com/muhammad-fiaz/logly.git" }
+logly = { git = "https://github.com/muhammad-fiaz/logly.git",rev="6c5297b39e5659fff9c8d02a909ea2955180e607" }
 
 
 [dependency-groups]
