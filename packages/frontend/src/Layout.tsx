@@ -5,6 +5,7 @@ import {
   ReactFlow,
   useEdgesState,
   useNodesState,
+  ColorMode, // Import ColorMode type
 } from '@xyflow/react';
 import { getNodes } from './api/nodes.ts';
 import { getEdges } from './api/edges.ts';
@@ -14,6 +15,7 @@ import { useTheme } from 'next-themes';
 import { EdgeData, NodeData } from './utils/types.ts';
 const App = import('./App');
 const AppDyn = React.lazy(() => App.then((mod) => ({ default: mod.App })));
+
 export default function Layout() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -116,21 +118,23 @@ export default function Layout() {
     [setEdges],
   );
 
+  const reactFlowProps = {
+    colorMode: currentTheme === 'dark' ? 'dark' as ColorMode : 'light' as ColorMode,
+    nodes: nodes,
+    edges: edges,
+    onNodesChange: onNodesChange,
+    onEdgesChange: onEdgesChange,
+    onConnect: onConnect,
+    fitView: true,
+    minZoom: 0.1,
+    proOptions: { hideAttribution: true },
+  };
+
   return isLoading ? (
     <Loading progress={progress} isServerConnected={serverConnected} />
   ) : (
     <div className={`${currentTheme} w-full h-full`}>
-      <ReactFlow
-        colorMode={currentTheme === 'dark' ? 'dark' : 'light'}
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        fitView
-        minZoom={0.1}
-        proOptions={{ hideAttribution: true }}
-      >
+      <ReactFlow {...reactFlowProps}>
         <AppDyn />
       </ReactFlow>
     </div>
