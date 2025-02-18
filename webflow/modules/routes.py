@@ -1,14 +1,15 @@
 import datetime
-import os
 from pathlib import Path
-from fastapi import APIRouter, FastAPI, HTTPException, Request
+from fastapi import APIRouter, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
 from typing import Dict, List, Optional
 
+from pydantic import BaseModel
+
 from webflow.logly import logly
 from webflow.modules.mount import mount_static_files
-from webflow.modules.types import NodeData, EdgeData, Metadata
+from webflow.modules.types import NodeData, EdgeData, Metadata, SideBar, SidebarResponse
 
 
 def ensure_initialized(method):
@@ -28,6 +29,10 @@ class WebFlow_API:
     custom_css: List[str] = []
     custom_js: List[str] = []
     custom_html: List[str] = []
+    sidebar_visible: bool = False
+    sidebar_label: str = "Application"
+    sidebar_default_open: bool = False
+    sidebar: List[SideBar] = []
     static_dir: Optional[str] = None
     initialized = False
     router = APIRouter()
@@ -69,6 +74,14 @@ class WebFlow_API:
     def add_node(cls, node_id: str, label: str, position: Dict[str, float], **kwargs):
         node = NodeData(id=node_id, label=label, position=position, **kwargs)
         cls.nodes.append(node)
+
+    @classmethod
+    @ensure_initialized
+    def sidebar(cls, visible: bool, label: str, default_open: bool, items: List[Dict[str, str]]):
+        cls.sidebar_visible = visible
+        cls.sidebar_label = label
+        cls.sidebar_default_open = default_open
+        cls.sidebar = [SideBar(**item) for item in items]
 
     @classmethod
     @ensure_initialized
@@ -181,6 +194,19 @@ class WebFlow_API:
         )
         async def get_edges():
             return cls.edges
+
+        @cls.router.get(
+            "/api/sidebar",
+            response_model=SidebarResponse,
+            response_model_exclude_none=True,
+        )
+        async def get_sidebar():
+            return SidebarResponse(
+                visible=cls.sidebar_visible,
+                label=cls.sidebar_label,
+                default_open=cls.sidebar_default_open,
+                items=cls.sidebar
+            )
 
         @cls.router.get("/api/metadata", response_model=Metadata)
         async def get_metadata():

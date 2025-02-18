@@ -62,7 +62,7 @@ export default function Layout() {
             dragging: node.dragging,
             targetPosition: node.targetPosition,
             sourcePosition: node.sourcePosition,
-          })),
+          }))
         );
 
         setEdges(
@@ -70,7 +70,22 @@ export default function Layout() {
             id: edge.id,
             source: edge.source,
             target: edge.target,
-          })),
+            animated: edge.animated,
+            style: edge.style,
+            selected: edge.selected,
+            interactionWidth: edge.interactionWidth,
+            sourcePosition: edge.sourcePosition,
+            targetPosition: edge.targetPosition,
+            label: edge.label,
+            labelStyle: edge.labelStyle,
+            labelShowBg: edge.labelShowBg,
+            labelBgStyle: edge.labelBgStyle,
+            labelBgPadding: edge.labelBgPadding,
+            labelBgBorderRadius: edge.labelBgBorderRadius,
+            markerStart: edge.markerStart,
+            markerEnd: edge.markerEnd,
+            pathOptions: edge.pathOptions,
+          }))
         );
 
         setApiFetched(true);

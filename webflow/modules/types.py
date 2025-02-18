@@ -64,3 +64,15 @@ class Metadata(BaseModel):
     ogDescription: Optional[str] = None
     ogUrl: Optional[str] = None
     ogImage: Optional[str] = None
+
+class SideBar(BaseModel):
+    title: str
+    icon: str
+    url: str
+
+
+class SidebarResponse(BaseModel):
+    visible: bool
+    label: str
+    default_open: bool
+    items: List[SideBar]
