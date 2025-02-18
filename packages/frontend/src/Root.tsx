@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './Layout';
-import './styles/index.scss';
-import '@xyflow/react/dist/style.css';
-import '@radix-ui/themes/styles.css';
-import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { ThemeProvider } from 'next-themes';
 import { Theme } from '@radix-ui/themes';
 import { HelmetProvider } from 'react-helmet-async';
-import MetaData from './components/Metadata';
 import { loadAssets } from './api/filepaths';
+import './styles/index.scss';
+import '@xyflow/react/dist/style.css';
+import '@radix-ui/themes/styles.css';
+import '@mantine/core/styles.css';
+
+// Lazy load components with immediate preload
+const Layout = React.lazy(() => import(/* webpackPreload: true */ './Layout'));
+const MetaData = React.lazy(() => import(/* webpackPreload: true */ './components/Metadata'));
+
+// Preload critical components and assets immediately
+const preloadAssets = () => {
+  import(/* webpackPreload: true */ './Layout');
+  import(/* webpackPreload: true */ './components/Metadata');
+};
+
+preloadAssets();
 
 const Root = () => {
   const [mounted, setMounted] = useState(false);
@@ -31,13 +41,7 @@ const Root = () => {
 
   return (
     <HelmetProvider>
-      <MetaData />
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <MantineProvider>
           <Theme>
             {mounted && (
@@ -47,6 +51,9 @@ const Root = () => {
                 </Routes>
               </Router>
             )}
+            <Suspense fallback={null}>
+              <MetaData />
+            </Suspense>
           </Theme>
         </MantineProvider>
       </ThemeProvider>
