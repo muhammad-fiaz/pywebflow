@@ -9,7 +9,7 @@ from pydantic import BaseModel
 
 from webflow.logly import logly
 from webflow.modules.mount import mount_static_files
-from webflow.modules.types import NodeData, EdgeData, Metadata, SideBar, SidebarResponse
+from webflow.modules.types import NodeData, EdgeData, Metadata, SideBar, SidebarResponse, ReactFlowConfig
 
 
 def ensure_initialized(method):
@@ -26,6 +26,7 @@ class WebFlow_API:
     nodes: List[NodeData] = []
     edges: List[EdgeData] = []
     metadata: Metadata = Metadata(title="PyWebflow", description="Webflow application")
+    config: List[ReactFlowConfig] = []
     custom_css: List[str] = []
     custom_js: List[str] = []
     custom_html: List[str] = []
@@ -93,6 +94,12 @@ class WebFlow_API:
     @ensure_initialized
     def set_metadata(cls, title: str, **kwargs):
         cls.metadata = Metadata(title=title, **kwargs)
+
+    @classmethod
+    @ensure_initialized
+    def set_config(cls, **kwargs):
+        config = ReactFlowConfig(**kwargs)
+        cls.config.append(config)
 
     @classmethod
     def set_static_directory(cls, directory: str):
@@ -244,6 +251,14 @@ class WebFlow_API:
                     "html": cls.custom_html,
                 }
             )
+
+        @cls.router.get(
+            "/api/config",
+            response_model=List[ReactFlowConfig],
+            response_model_exclude_none=True,
+        )
+        async def get_config():
+            return cls.config
 
         @cls.router.get("/static/{filename:path}")
         async def get_static_file(filename: str):

@@ -5,14 +5,17 @@ import {
   ReactFlow,
   useEdgesState,
   useNodesState,
-  ColorMode, // Import ColorMode type
+  ColorMode,
+  ReactFlowProps,
 } from '@xyflow/react';
-import { getNodes } from './api/nodes.ts';
-import { getEdges } from './api/edges.ts';
-import { getServerStatus } from './api/status.ts';
+import { getNodes } from './api/nodes';
+import { getEdges } from './api/edges';
+import { getServerStatus } from './api/status';
 import Loading from './components/Loading';
 import { useTheme } from 'next-themes';
-import { EdgeData, NodeData } from './utils/types.ts';
+import { EdgeData, NodeData } from './utils/types';
+import ThemeSwitcher from './components/ThemeSwitcher';
+import {getConfig} from "./api/config.ts";
 const App = import('./App');
 const AppDyn = React.lazy(() => App.then((mod) => ({ default: mod.App })));
 
@@ -22,9 +25,26 @@ export default function Layout() {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [apiFetched, setApiFetched] = useState(false);
-  const [serverConnected, setServerConnected] = useState(true); // Track server status
-  const { theme, systemTheme } = useTheme();
+  const [serverConnected, setServerConnected] = useState(true);
+  const [config, setConfig] = useState<Partial<ReactFlowProps>>({});
+  const { theme, setTheme, systemTheme } = useTheme();
   const currentTheme = theme === 'system' ? systemTheme : theme;
+
+  useEffect(() => {
+    const loadInitialConfig = async () => {
+      try {
+        const fetchedConfig = await getConfig();
+        if (fetchedConfig[0].colorMode) {
+          setTheme(fetchedConfig[0].colorMode);
+        }
+        setConfig(fetchedConfig[0]);
+      } catch (error) {
+        console.error('Error fetching initial config:', error);
+      }
+    };
+
+    loadInitialConfig();
+  }, [setTheme]);
 
   useEffect(() => {
     const updateProgress = () => {
@@ -40,10 +60,9 @@ export default function Layout() {
     return () => clearInterval(interval);
   }, [apiFetched]);
 
-  // Function to check server status and fetch data
   const checkServerAndFetchData = useCallback(async () => {
     try {
-      const status = await getServerStatus(); // Check if the server is online
+      const status = await getServerStatus();
       if (status.status === 'online') {
         setServerConnected(true);
 
@@ -97,16 +116,15 @@ export default function Layout() {
           setTimeout(() => setIsLoading(false), 500);
         }, 500);
       } else {
-        setServerConnected(false); // Mark server as disconnected
-        setTimeout(checkServerAndFetchData, 3000); // Retry every 3 seconds
+        setServerConnected(false);
+        setTimeout(checkServerAndFetchData, 3000);
       }
     } catch {
-      setServerConnected(false); // Server error, retry
+      setServerConnected(false);
       setTimeout(checkServerAndFetchData, 3000);
     }
   }, []);
 
-  // This useEffect runs when progress reaches 80%
   useEffect(() => {
     if (progress === 80 && !apiFetched) {
       checkServerAndFetchData();
@@ -119,15 +137,20 @@ export default function Layout() {
   );
 
   const reactFlowProps = {
-    colorMode: currentTheme === 'dark' ? 'dark' as ColorMode : 'light' as ColorMode,
+    colorMode: config.colorMode || (currentTheme === 'dark' ? 'dark' as ColorMode : 'light' as ColorMode),
     nodes: nodes,
     edges: edges,
-    onNodesChange: onNodesChange,
-    onEdgesChange: onEdgesChange,
-    onConnect: onConnect,
-    fitView: true,
-    minZoom: 0.1,
-    proOptions: { hideAttribution: true },
+    onNodesChange: config.onNodesChange ?? onNodesChange,
+    onEdgesChange: config.onEdgesChange ?? onEdgesChange,
+    onConnect: config.onConnect ?? onConnect,
+    fitView: config.fitView ?? true,
+    minZoom: config.minZoom ?? 0.1,
+    maxZoom: config.maxZoom ?? 2,
+    snapToGrid: config.snapToGrid ?? false,
+    snapGrid: config.snapGrid ?? [16, 16],
+    nodesDraggable: config.nodesDraggable ?? true,
+    nodesConnectable: config.nodesConnectable ?? true,
+    proOptions: config.proOptions ?? { hideAttribution: true },
   };
 
   return isLoading ? (
@@ -136,6 +159,7 @@ export default function Layout() {
     <div className={`${currentTheme} w-full h-full`}>
       <ReactFlow {...reactFlowProps}>
         <AppDyn />
+        <ThemeSwitcher />
       </ReactFlow>
     </div>
   );

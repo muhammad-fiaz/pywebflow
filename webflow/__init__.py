@@ -8,6 +8,7 @@ from webflow.webflow import (
     set_static_directory,
     set_custom_html,
 sidebar,
+config
 )
 __all__ = [
     "launch",
@@ -19,4 +20,5 @@ __all__ = [
     "set_static_directory",
     "set_custom_html",
     "sidebar",
+    "config"
 ]
