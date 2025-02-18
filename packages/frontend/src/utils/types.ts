@@ -44,4 +44,3 @@ export interface EdgeData {
   markerEnd?: string; // Marker at the end of the edge
   pathOptions?: string; // Path options (optional)
 }
-

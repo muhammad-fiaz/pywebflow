@@ -65,6 +65,7 @@ class Metadata(BaseModel):
     ogUrl: Optional[str] = None
     ogImage: Optional[str] = None
 
+
 class SideBar(BaseModel):
     title: str
     icon: str

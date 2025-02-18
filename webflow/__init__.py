@@ -7,9 +7,10 @@ from webflow.webflow import (
     set_custom_js,
     set_static_directory,
     set_custom_html,
-sidebar,
-config
+    sidebar,
+    config,
 )
+
 __all__ = [
     "launch",
     "add_edge",
@@ -20,5 +21,5 @@ __all__ = [
     "set_static_directory",
     "set_custom_html",
     "sidebar",
-    "config"
+    "config",
 ]

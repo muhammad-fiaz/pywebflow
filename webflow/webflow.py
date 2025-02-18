@@ -38,10 +38,14 @@ def set_static_directory(directory: str):
 def set_custom_html(html_path: str):
     WebFlow_API.set_custom_html(html_path)
 
+
 def sidebar(visible: bool, label: str, default_open: bool, items: List[Dict[str, str]]):
     WebFlow_API.sidebar(visible, label, default_open, items)
+
+
 def config(**kwargs):
     WebFlow_API.set_config(**kwargs)
+
 
 def launch():
     args = parse_arguments()

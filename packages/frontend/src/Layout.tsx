@@ -15,7 +15,7 @@ import Loading from './components/Loading';
 import { useTheme } from 'next-themes';
 import { EdgeData, NodeData } from './utils/types';
 import ThemeSwitcher from './components/ThemeSwitcher';
-import {getConfig} from "./api/config.ts";
+import { getConfig } from './api/config.ts';
 const App = import('./App');
 const AppDyn = React.lazy(() => App.then((mod) => ({ default: mod.App })));
 
@@ -83,7 +83,7 @@ export default function Layout() {
             dragging: node.dragging,
             targetPosition: node.targetPosition,
             sourcePosition: node.sourcePosition,
-          }))
+          })),
         );
 
         setEdges(
@@ -106,7 +106,7 @@ export default function Layout() {
             markerStart: edge.markerStart,
             markerEnd: edge.markerEnd,
             pathOptions: edge.pathOptions,
-          }))
+          })),
         );
 
         setApiFetched(true);
@@ -137,7 +137,11 @@ export default function Layout() {
   );
 
   const reactFlowProps = {
-    colorMode: config.colorMode || (currentTheme === 'dark' ? 'dark' as ColorMode : 'light' as ColorMode),
+    colorMode:
+      config.colorMode ||
+      (currentTheme === 'dark'
+        ? ('dark' as ColorMode)
+        : ('light' as ColorMode)),
     nodes: nodes,
     edges: edges,
     onNodesChange: config.onNodesChange ?? onNodesChange,

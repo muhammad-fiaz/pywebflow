@@ -28,7 +28,11 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ items, label }) => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
-                      <img src={item.icon} alt={item.title} style={{ width: 20, height: 20 }} />
+                      <img
+                        src={item.icon}
+                        alt={item.title}
+                        style={{ width: 20, height: 20 }}
+                      />
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>

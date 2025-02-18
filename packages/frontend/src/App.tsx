@@ -9,7 +9,9 @@ import BackgroundWrapper from './components/BackgroundWrapper.tsx';
 import { getSidebarItems, SidebarResponse } from './api/sidebar';
 
 export function App() {
-  const [sidebarItems, setSidebarItems] = useState<SidebarResponse['items']>([]);
+  const [sidebarItems, setSidebarItems] = useState<SidebarResponse['items']>(
+    [],
+  );
   const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
   const [sidebarLabel, setSidebarLabel] = useState<string>('');
   const [defaultOpen, setDefaultOpen] = useState<boolean>(false);
@@ -29,8 +31,10 @@ export function App() {
   return (
     <div className="App">
       <SidebarProvider defaultOpen={defaultOpen}>
-        {sidebarVisible && <AppSidebar items={sidebarItems} label={sidebarLabel} />}
-      {sidebarVisible &&   <SidebarTrigger />}
+        {sidebarVisible && (
+          <AppSidebar items={sidebarItems} label={sidebarLabel} />
+        )}
+        {sidebarVisible && <SidebarTrigger />}
         <ThemeSwitcher />
         <Status />
         <ControlsComp />

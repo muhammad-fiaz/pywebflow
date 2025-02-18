@@ -10,11 +10,13 @@ import './styles/index.scss';
 import '@xyflow/react/dist/style.css';
 import '@radix-ui/themes/styles.css';
 import '@mantine/core/styles.css';
-import {getConfig} from "./api/config.ts";
+import { getConfig } from './api/config.ts';
 
 // Lazy load components with immediate preload
 const Layout = React.lazy(() => import(/* webpackPreload: true */ './Layout'));
-const MetaData = React.lazy(() => import(/* webpackPreload: true */ './components/Metadata'));
+const MetaData = React.lazy(
+  () => import(/* webpackPreload: true */ './components/Metadata'),
+);
 
 // Preload critical components and assets immediately
 const preloadAssets = () => {
@@ -27,7 +29,9 @@ preloadAssets();
 const Root = () => {
   const [mounted, setMounted] = useState(false);
   const [, setHtmlPages] = useState<string[]>([]);
-  const [defaultTheme, setDefaultTheme] = useState<'light' | 'dark' | 'system'>('system');
+  const [defaultTheme, setDefaultTheme] = useState<'light' | 'dark' | 'system'>(
+    'system',
+  );
 
   useEffect(() => {
     const load = async () => {
@@ -54,7 +58,12 @@ const Root = () => {
 
   return (
     <HelmetProvider>
-      <ThemeProvider attribute="class" defaultTheme={defaultTheme} enableSystem disableTransitionOnChange>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme={defaultTheme}
+        enableSystem
+        disableTransitionOnChange
+      >
         <MantineProvider>
           <Theme>
             {mounted && (

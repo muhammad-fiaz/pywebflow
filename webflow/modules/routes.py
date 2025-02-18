@@ -9,7 +9,14 @@ from pydantic import BaseModel
 
 from webflow.logly import logly
 from webflow.modules.mount import mount_static_files
-from webflow.modules.types import NodeData, EdgeData, Metadata, SideBar, SidebarResponse, ReactFlowConfig
+from webflow.modules.types import (
+    NodeData,
+    EdgeData,
+    Metadata,
+    SideBar,
+    SidebarResponse,
+    ReactFlowConfig,
+)
 
 
 def ensure_initialized(method):
@@ -78,7 +85,9 @@ class WebFlow_API:
 
     @classmethod
     @ensure_initialized
-    def sidebar(cls, visible: bool, label: str, default_open: bool, items: List[Dict[str, str]]):
+    def sidebar(
+        cls, visible: bool, label: str, default_open: bool, items: List[Dict[str, str]]
+    ):
         cls.sidebar_visible = visible
         cls.sidebar_label = label
         cls.sidebar_default_open = default_open
@@ -212,7 +221,7 @@ class WebFlow_API:
                 visible=cls.sidebar_visible,
                 label=cls.sidebar_label,
                 default_open=cls.sidebar_default_open,
-                items=cls.sidebar
+                items=cls.sidebar,
             )
 
         @cls.router.get("/api/metadata", response_model=Metadata)
