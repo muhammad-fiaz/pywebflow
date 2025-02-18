@@ -1,14 +1,22 @@
 import datetime
-import os
 from pathlib import Path
-from fastapi import APIRouter, FastAPI, HTTPException, Request
+from fastapi import APIRouter, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
 from typing import Dict, List, Optional
 
+from pydantic import BaseModel
+
 from webflow.logly import logly
 from webflow.modules.mount import mount_static_files
-from webflow.modules.types import NodeData, EdgeData, Metadata
+from webflow.modules.types import (
+    NodeData,
+    EdgeData,
+    Metadata,
+    SideBar,
+    SidebarResponse,
+    ReactFlowConfig,
+)
 
 
 def ensure_initialized(method):
@@ -25,9 +33,14 @@ class WebFlow_API:
     nodes: List[NodeData] = []
     edges: List[EdgeData] = []
     metadata: Metadata = Metadata(title="PyWebflow", description="Webflow application")
+    config: List[ReactFlowConfig] = []
     custom_css: List[str] = []
     custom_js: List[str] = []
     custom_html: List[str] = []
+    sidebar_visible: bool = False
+    sidebar_label: str = "Application"
+    sidebar_default_open: bool = False
+    sidebar: List[SideBar] = []
     static_dir: Optional[str] = None
     initialized = False
     router = APIRouter()
@@ -72,6 +85,16 @@ class WebFlow_API:
 
     @classmethod
     @ensure_initialized
+    def sidebar(
+        cls, visible: bool, label: str, default_open: bool, items: List[Dict[str, str]]
+    ):
+        cls.sidebar_visible = visible
+        cls.sidebar_label = label
+        cls.sidebar_default_open = default_open
+        cls.sidebar = [SideBar(**item) for item in items]
+
+    @classmethod
+    @ensure_initialized
     def add_edge(cls, edge_id: str, source: str, target: str, **kwargs):
         edge = EdgeData(id=edge_id, source=source, target=target, **kwargs)
         cls.edges.append(edge)
@@ -80,6 +103,12 @@ class WebFlow_API:
     @ensure_initialized
     def set_metadata(cls, title: str, **kwargs):
         cls.metadata = Metadata(title=title, **kwargs)
+
+    @classmethod
+    @ensure_initialized
+    def set_config(cls, **kwargs):
+        config = ReactFlowConfig(**kwargs)
+        cls.config.append(config)
 
     @classmethod
     def set_static_directory(cls, directory: str):
@@ -182,6 +211,19 @@ class WebFlow_API:
         async def get_edges():
             return cls.edges
 
+        @cls.router.get(
+            "/api/sidebar",
+            response_model=SidebarResponse,
+            response_model_exclude_none=True,
+        )
+        async def get_sidebar():
+            return SidebarResponse(
+                visible=cls.sidebar_visible,
+                label=cls.sidebar_label,
+                default_open=cls.sidebar_default_open,
+                items=cls.sidebar,
+            )
+
         @cls.router.get("/api/metadata", response_model=Metadata)
         async def get_metadata():
             return cls.metadata
@@ -218,6 +260,14 @@ class WebFlow_API:
                     "html": cls.custom_html,
                 }
             )
+
+        @cls.router.get(
+            "/api/config",
+            response_model=List[ReactFlowConfig],
+            response_model_exclude_none=True,
+        )
+        async def get_config():
+            return cls.config
 
         @cls.router.get("/static/{filename:path}")
         async def get_static_file(filename: str):

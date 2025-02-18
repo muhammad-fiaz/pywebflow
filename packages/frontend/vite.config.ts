@@ -30,6 +30,8 @@ export default defineConfig({
       '/api/edges': 'http://127.0.0.1:8000',
       '/api/status': 'http://127.0.0.1:8000',
       '/api/filepaths': 'http://127.0.0.1:8000',
+      '/api/sidebar': 'http://127.0.0.1:8000',
+      '/api/config': 'http://127.0.0.1:8000',
     },
     fs: {
       strict: false,

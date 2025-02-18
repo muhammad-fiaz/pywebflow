@@ -1,4 +1,5 @@
-from logly import Logly, LoglyConfig
+from logly import Logly
 
-config = LoglyConfig(display=True, log_to_file_enabled=False)
-logly = Logly(config=config)
+logly = Logly()
+
+logly.Config(log_to_file_enabled=False)

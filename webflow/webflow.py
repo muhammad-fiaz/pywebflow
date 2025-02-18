@@ -1,5 +1,6 @@
 from typing import Dict
 import uvicorn
+from typing_extensions import List
 
 from webflow.logly import logly
 from webflow.modules import parse_arguments, app
@@ -38,10 +39,19 @@ def set_custom_html(html_path: str):
     WebFlow_API.set_custom_html(html_path)
 
 
+def sidebar(visible: bool, label: str, default_open: bool, items: List[Dict[str, str]]):
+    WebFlow_API.sidebar(visible, label, default_open, items)
+
+
+def config(**kwargs):
+    WebFlow_API.set_config(**kwargs)
+
+
 def launch():
     args = parse_arguments()
 
     # Log launch details using Logly.
+    logly.Config(color_enabled=True)
     logly.info(
         "Launching application",
         f"Host: {args.host}, Port: {args.port}, Reload: {args.reload}",
