@@ -7,7 +7,7 @@ from webflow.webflow import (
     set_custom_js,
     set_static_directory,
     set_custom_html,
-sidebar
+sidebar,
 )
 __all__ = [
     "launch",
@@ -18,5 +18,5 @@ __all__ = [
     "set_custom_js",
     "set_static_directory",
     "set_custom_html",
-    "sidebar"
+    "sidebar",
 ]
