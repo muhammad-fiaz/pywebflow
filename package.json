@@ -13,7 +13,6 @@
  "format": "bun run format:frontend && bun run format:api",
     "format:frontend": "prettier --write 'packages/frontend/**/*.{js,ts,tsx,json,md,scss,css}'",
     "format:api": "prettier --write 'packages/api/**/*.{js,ts,tsx,json,md,scss,css}'"
-  }
   },
   "devDependencies": {
     "prettier": "3.5.1"
