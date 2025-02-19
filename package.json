@@ -10,5 +10,7 @@
     "lint:frontend": "bun run --cwd packages/frontend lint",
     "preview:frontend": "bun run --cwd packages/frontend preview",
     "prepare": "husky"
-  }
+  },
+  "packageManager": "bun@1.2.2"
+
 }

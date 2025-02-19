@@ -1,44 +1,43 @@
-import React, { Suspense, useEffect, useState } from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { MantineProvider } from '@mantine/core';
-import { ThemeProvider } from 'next-themes';
-import { Theme } from '@radix-ui/themes';
-import { HelmetProvider } from 'react-helmet-async';
-import { loadAssets } from './api/filepaths';
-import './styles/index.scss';
-import '@xyflow/react/dist/style.css';
-import '@radix-ui/themes/styles.css';
-import '@mantine/core/styles.css';
-import { getConfig } from './api/config.ts';
+import React, { Suspense, useEffect, useState } from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { MantineProvider } from "@mantine/core";
+import { ThemeProvider } from "next-themes";
+import { Theme } from "@radix-ui/themes";
+import { HelmetProvider } from "react-helmet-async";
+import "./styles/index.scss";
+import "@xyflow/react/dist/style.css";
+import "@radix-ui/themes/styles.css";
+import "@mantine/core/styles.css";
+import {loadAndInjectAssets} from "./hooks/assets.ts";
+import { getConfig } from '@pywebflow/api/src/config';
 
-// Lazy load components with immediate preload
-const Layout = React.lazy(() => import(/* webpackPreload: true */ './Layout'));
+// Lazy load components with preloading
+const Layout = React.lazy(() => import(/* webpackPreload: true */ "./Layout"));
 const MetaData = React.lazy(
-  () => import(/* webpackPreload: true */ './components/Metadata'),
+  () => import(/* webpackPreload: true */ "./components/Metadata")
 );
 
-// Preload critical components and assets immediately
+// Preload critical components asynchronously
 const preloadAssets = () => {
-  import(/* webpackPreload: true */ './Layout');
-  import(/* webpackPreload: true */ './components/Metadata');
+  import(/* webpackPreload: true */ "./Layout");
+  import(/* webpackPreload: true */ "./components/Metadata");
 };
 
 preloadAssets();
 
 const Root = () => {
   const [mounted, setMounted] = useState(false);
-  const [, setHtmlPages] = useState<string[]>([]);
-  const [defaultTheme, setDefaultTheme] = useState<'light' | 'dark' | 'system'>(
-    'system',
+  const [defaultTheme, setDefaultTheme] = useState<"light" | "dark" | "system">(
+    "system"
   );
 
   useEffect(() => {
-    const load = async () => {
-      const html = await loadAssets();
-      setHtmlPages(html);
+    // Load assets dynamically
+    loadAndInjectAssets();
 
-      // Fetch configuration data to set the default theme
+    // Fetch config data
+    const fetchConfig = async () => {
       try {
         const fetchedConfig = await getConfig();
         const config = fetchedConfig.data[0];
@@ -46,10 +45,11 @@ const Root = () => {
           setDefaultTheme(config.colorMode);
         }
       } catch (error) {
-        console.error('Error fetching config:', error);
+        console.error("Error fetching config:", error);
       }
     };
-    load();
+
+    fetchConfig();
   }, []);
 
   useEffect(() => {
@@ -85,8 +85,8 @@ const Root = () => {
 
 export default Root;
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Root />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

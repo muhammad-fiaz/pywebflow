@@ -9,7 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from './ui/sidebar';
-import { SidebarItem } from '../api/sidebar';
+import { SidebarItem } from '@pywebflow/api/src/sidebar.ts';
 
 interface AppSidebarProps {
   items: SidebarItem[];
