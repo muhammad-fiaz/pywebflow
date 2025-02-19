@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { getServerStatus } from '../api/status';
+import { getServerStatus } from '@pywebflow/api/src/status.ts';
 
 const Status: React.FC = () => {
   const [status, setStatus] = useState('Checking...');

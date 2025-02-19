@@ -8,14 +8,14 @@ import {
   ColorMode,
   ReactFlowProps,
 } from '@xyflow/react';
-import { getNodes } from './api/nodes';
-import { getEdges } from './api/edges';
-import { getServerStatus } from './api/status';
+import { getNodes } from '@pywebflow/api/src/nodes.ts';
+import { getEdges } from '@pywebflow/api/src/edges.ts';
+import { getServerStatus } from '@pywebflow/api/src/status.ts';
 import Loading from './components/Loading';
 import { useTheme } from 'next-themes';
 import { EdgeData, NodeData } from './utils/types';
 import ThemeSwitcher from './components/ThemeSwitcher';
-import { getConfig } from './api/config.ts';
+import { getConfig } from '@pywebflow/api/src/config.ts';
 const App = import('./App');
 const AppDyn = React.lazy(() => App.then((mod) => ({ default: mod.App })));
 
