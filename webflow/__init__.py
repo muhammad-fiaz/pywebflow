@@ -9,6 +9,7 @@ from webflow.webflow import (
     set_custom_html,
     sidebar,
     config,
+add_html_content
 )
 
 __all__ = [
@@ -22,4 +23,5 @@ __all__ = [
     "set_custom_html",
     "sidebar",
     "config",
+    "add_html_content"
 ]

@@ -6,6 +6,7 @@ import Status from './components/Status.tsx';
 import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar.tsx';
 import AppSidebar from './components/App-Sidebar.tsx';
 import BackgroundWrapper from './components/BackgroundWrapper.tsx';
+import InjectedHtml from './components/InjectedHtml.tsx';
 import {
   getSidebarItems,
   SidebarResponse,
@@ -43,6 +44,7 @@ export function App() {
         <ControlsComp />
         <MinimapComp />
         <BackgroundWrapper />
+        <InjectedHtml /> {/* Add the InjectedHtml component here */}
       </SidebarProvider>
     </div>
   );
