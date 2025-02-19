@@ -12,7 +12,7 @@
   "devDependencies": {
     "typescript": "^5.7.3"
   },
-    "license": "apache-2.0",
+  "license": "apache-2.0",
   "keywords": [
     "pywebflow",
     "webflow",
