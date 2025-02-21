@@ -1,6 +1,7 @@
 import uvicorn
 from typing import Dict, List
 
+from webflow.ascii import ascii_art
 from webflow.logly import logly
 from webflow.modules import parse_arguments, app
 from webflow.modules.routes import WebFlow_API, Metadata
@@ -50,8 +51,10 @@ def config(**kwargs):
     WebFlow_API.set_config(**kwargs)
 
 
-def launch():
+def launch(attributes=True):
     args = parse_arguments()
+    if attributes:
+        print(ascii_art)
 
     # Log launch details using Logly.
     logly.Config(color_enabled=True)
@@ -99,6 +102,3 @@ def launch():
         log_config=custom_log_config,
     )
 
-
-if __name__ == "__main__":
-    launch()

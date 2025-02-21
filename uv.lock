@@ -1,5 +1,4 @@
 version = 1
-revision = 1
 requires-python = ">=3.9"
 
 [[package]]
@@ -285,10 +284,12 @@ wheels = [
 
 [[package]]
 name = "pywebflow"
+version = "0.0.1rc0"
 source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "logly" },
+    { name = "rich" },
     { name = "uvicorn" },
 ]
 
@@ -309,10 +310,10 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.115.6,<0.116.0" },
     { name = "logly", git = "https://github.com/muhammad-fiaz/logly.git?rev=9920c22e118facaa5f3145df0a9b4b9e9b9a8839" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.4" },
+    { name = "rich", specifier = ">=13.9.4" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9.5" },
     { name = "uvicorn", specifier = ">=0.34.0,<0.35.0" },
 ]
-provides-extras = ["dev"]
 
 [package.metadata.requires-dev]
 dev = [

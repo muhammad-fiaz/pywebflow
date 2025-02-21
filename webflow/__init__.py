@@ -11,7 +11,7 @@ from webflow.webflow import (
     config,
 add_html_content
 )
-
+from webflow.__version__ import version as __version__
 __all__ = [
     "launch",
     "add_edge",
@@ -23,5 +23,6 @@ __all__ = [
     "set_custom_html",
     "sidebar",
     "config",
-    "add_html_content"
+    "add_html_content",
+    "__version__",
 ]
