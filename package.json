@@ -10,12 +10,12 @@
     "lint:frontend": "bun run --cwd packages/frontend lint",
     "preview:frontend": "bun run --cwd packages/frontend preview",
     "prepare": "husky",
- "format": "bun run format:frontend && bun run format:api",
+    "format": "bun run format:frontend && bun run format:api",
     "format:frontend": "prettier --write 'packages/frontend/**/*.{js,ts,tsx,json,md,scss,css}'",
     "format:api": "prettier --write 'packages/api/**/*.{js,ts,tsx,json,md,scss,css}'"
   },
   "devDependencies": {
     "prettier": "3.5.1"
   },
-  "packageManager": "bun@1.2.2"
+  "packageManager": "bun@latest"
 }

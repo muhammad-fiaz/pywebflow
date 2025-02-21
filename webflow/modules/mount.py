@@ -30,6 +30,4 @@ def mount_static_files(app: FastAPI, static_dir=None):
     if os.path.isdir(static_dir):
         app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
     else:
-        logly.warn(
-            f"Static directory '{static_dir}' not found. Skipping mounting of static files."
-        )
+        logly.warn(f"Static directory '{static_dir}' not found. Skipping mounting of static files.")

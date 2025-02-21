@@ -27,5 +27,5 @@
     "url": "https://github.com/muhammad-fiaz/pywebflow/issues"
   },
   "homepage": "https://github.com/muhammad-fiaz/pywebflow#readme",
-  "packageManager": "bun@1.2.2"
+  "packageManager": "bun@latest"
 }

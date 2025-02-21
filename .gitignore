@@ -55,3 +55,8 @@ webflow/frontend/dist/
 /packages/frontend/stats.html
 
 /log.txt
+/sample_test/
+./webflow/__version__.py
+/.env
+/.env.local
+/webflow/__version__.py

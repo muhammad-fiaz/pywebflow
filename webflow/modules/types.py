@@ -196,3 +196,7 @@ class ReactFlowConfig(BaseModel):
     noPanClassName: Optional[str] = None
     noDragClassName: Optional[str] = None
     noWheelClassName: Optional[str] = None
+
+
+class HtmlContent(BaseModel):
+    content: str

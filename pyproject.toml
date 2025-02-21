@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
 [project]
 name = "pywebflow"
 description = "A Python-based web framework to create flow-based workflows."
@@ -36,6 +40,7 @@ dependencies = [
 
 [tool.hatch.metadata]
 allow-direct-references = true
+allow-ambiguous-features = true
 
 [project.urls]
 source = "https://github.com/muhammad-fiaz/pywebflow.git"
@@ -52,16 +57,16 @@ dev = [
 [tool.hatch.build.targets.sdist]
 ignore-vcs = true
 
-[build-system]
-requires = ["hatchling", "uv-dynamic-versioning"]
-build-backend = "hatchling.build"
-
 [tool.hatch.build]
+exclude = [
+    "packages/**/*",
+]
 include = [
   "webflow/**/*",
+  "scripts/**/*",
   "pywebflow/**/*",
   "README.md",
-  "LICENSE"
+  "LICENSE",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -75,6 +80,21 @@ artifacts = [
 
 [tool.hatch.version]
 source = "uv-dynamic-versioning"
+
+[tool.uv-dynamic-versioning]
+vcs = "git"
+metadata = false
+style = "semver"
+latest-tag = true
+bump = true
+
+
+[tool.hatch.build.hooks.version]
+path = "webflow/__version__.py"
+template = '''
+version = "{version}"
+'''
+
 
 [tool.uv.pip]
 extra = ["dev"]
@@ -92,3 +112,57 @@ dev = [
 
 [tool.uv]
 cache-keys = [{ file = "requirements.txt" }]
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--no-cov-on-fail"
+
+[tool.coverage.report]
+exclude_lines = [
+  "if __name__ == \"__main__\":",
+  "pragma: no cover",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+fix = true
+
+[tool.ruff.lint]
+select = [
+  "E",  # pycodestyle (formatting issues)
+  "B",  # flake8-bugbear (common bugs)
+  "W",  # warnings
+  "F",  # pyflakes (error detection)
+  "UP",  # pyupgrade (outdated syntax)
+  "I001",  # unsorted imports
+  "T201",  # print found
+  "T203",  # pprint found
+  "RUF022",  # Unsorted __all__
+  "RUF023",  # Unsorted __slots__
+]
+ignore = [
+  "E501",   # Line too long (handled by formatter)
+  "W191",   # Indentation contains tabs
+  "E111",   # Indentation is not a multiple of four
+  "E114",   # Indentation is not a multiple of four (comment)
+  "E117",   # Over-indented
+  "D206",   # Docstring indentation error
+  "D300",   # Triple double quotes required
+  "Q000",   # Bad quotes
+  "Q001",   # Bad quotes
+  "Q002",   # Bad quotes
+  "Q003",   # Bad quotes
+  "COM812", # Trailing comma missing
+  "COM819", # Trailing comma unexpected
+  "ISC001", # String concatenation error
+  "ISC002", # String formatting issue
+]

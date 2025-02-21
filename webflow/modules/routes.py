@@ -7,6 +7,7 @@ from typing import Dict, List, Optional
 
 from pydantic import BaseModel
 
+
 from webflow.logly import logly
 from webflow.modules.mount import mount_static_files
 from webflow.modules.types import (
@@ -16,6 +17,7 @@ from webflow.modules.types import (
     SideBar,
     SidebarResponse,
     ReactFlowConfig,
+    HtmlContent,
 )
 
 
@@ -44,6 +46,7 @@ class WebFlow_API:
     static_dir: Optional[str] = None
     initialized = False
     router = APIRouter()
+    html_store: List[str] = []
 
     @classmethod
     def initialize(cls):
@@ -85,9 +88,7 @@ class WebFlow_API:
 
     @classmethod
     @ensure_initialized
-    def sidebar(
-        cls, visible: bool, label: str, default_open: bool, items: List[Dict[str, str]]
-    ):
+    def sidebar(cls, visible: bool, label: str, default_open: bool, items: List[Dict[str, str]]):
         cls.sidebar_visible = visible
         cls.sidebar_label = label
         cls.sidebar_default_open = default_open
@@ -175,6 +176,16 @@ class WebFlow_API:
         else:
             logly.warn(f"{filename} not found in the static directory.")
             raise HTTPException(status_code=404, detail=f"{filename} not found")
+
+    @classmethod
+    @ensure_initialized
+    def add_html(cls, content: str):
+        cls.html_store.append(content)
+
+    @classmethod
+    @ensure_initialized
+    def get_html(cls):
+        return cls.html_store
 
     @classmethod
     def launch(cls, host: str = "127.0.0.1", port: int = 8000, reload: bool = True):
@@ -272,6 +283,15 @@ class WebFlow_API:
         @cls.router.get("/static/{filename:path}")
         async def get_static_file(filename: str):
             return cls.serve_file(filename)
+
+        @cls.router.post("/api/html")
+        async def set_html(content: HtmlContent):
+            cls.add_html(content.content)
+            return {"status": "success"}
+
+        @cls.router.get("/api/html")
+        async def get_html():
+            return {"content": cls.get_html()}
 
         cls.app.include_router(cls.router)
 

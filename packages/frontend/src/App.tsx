@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import ControlsComp from './components/Controls.tsx';
 import MinimapComp from './components/Minimap.tsx';
-import ThemeSwitcher from './components/ThemeSwitcher.tsx';
 import Status from './components/Status.tsx';
 import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar.tsx';
 import AppSidebar from './components/App-Sidebar.tsx';
 import BackgroundWrapper from './components/BackgroundWrapper.tsx';
+import InjectedHtml from './components/InjectedHtml.tsx';
 import {
   getSidebarItems,
   SidebarResponse,
@@ -32,17 +32,21 @@ export function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App h-screen overflow-hidden">
       <SidebarProvider defaultOpen={defaultOpen}>
-        {sidebarVisible && (
-          <AppSidebar items={sidebarItems} label={sidebarLabel} />
-        )}
-        {sidebarVisible && <SidebarTrigger />}
-        <ThemeSwitcher />
-        <Status />
-        <ControlsComp />
-        <MinimapComp />
-        <BackgroundWrapper />
+        <div className="flex h-full">
+          {sidebarVisible && (
+            <AppSidebar items={sidebarItems} label={sidebarLabel} />
+          )}
+          {sidebarVisible && <SidebarTrigger />}
+          <div className="flex-1 overflow-auto">
+            <Status />
+            <ControlsComp />
+            <MinimapComp />
+            <BackgroundWrapper />
+            <InjectedHtml /> {/* Add the InjectedHtml component here */}
+          </div>
+        </div>
       </SidebarProvider>
     </div>
   );

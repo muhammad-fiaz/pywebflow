@@ -9,7 +9,9 @@ from webflow.webflow import (
     set_custom_html,
     sidebar,
     config,
+    add_html_content,
 )
+from webflow.__version__ import version as __version__
 
 __all__ = [
     "launch",
@@ -22,4 +24,6 @@ __all__ = [
     "set_custom_html",
     "sidebar",
     "config",
+    "add_html_content",
+    "__version__",
 ]
