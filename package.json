@@ -17,5 +17,5 @@
   "devDependencies": {
     "prettier": "3.5.1"
   },
-  "packageManager": "bun@1.2.2"
+  "packageManager": "bun@latest"
 }
