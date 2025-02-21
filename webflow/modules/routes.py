@@ -16,7 +16,8 @@ from webflow.modules.types import (
     Metadata,
     SideBar,
     SidebarResponse,
-    ReactFlowConfig, HtmlContent,
+    ReactFlowConfig,
+    HtmlContent,
 )
 
 
@@ -87,9 +88,7 @@ class WebFlow_API:
 
     @classmethod
     @ensure_initialized
-    def sidebar(
-        cls, visible: bool, label: str, default_open: bool, items: List[Dict[str, str]]
-    ):
+    def sidebar(cls, visible: bool, label: str, default_open: bool, items: List[Dict[str, str]]):
         cls.sidebar_visible = visible
         cls.sidebar_label = label
         cls.sidebar_default_open = default_open

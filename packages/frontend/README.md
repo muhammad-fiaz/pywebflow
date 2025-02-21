@@ -1,13 +1,14 @@
 # PyWebflow - Frontend
 
-This is the frontend for **PyWebflow**, a visual programming tool for building web applications.  
+This is the frontend for **PyWebflow**, a visual programming tool for building web applications.
 
-The frontend is built with [React](https://react.dev/), [ReactFlow](https://reactflow.dev/), [Tailwind CSS](https://tailwindcss.com/), and [TypeScript](https://www.typescriptlang.org/). It provides a user-friendly interface for creating and managing flow-based workflows.  
+The frontend is built with [React](https://react.dev/), [ReactFlow](https://reactflow.dev/), [Tailwind CSS](https://tailwindcss.com/), and [TypeScript](https://www.typescriptlang.org/). It provides a user-friendly interface for creating and managing flow-based workflows.
 
-Other tools and libraries used include:  
-- [ShadCN/UI](https://ui.shadcn.com/) for UI components  
+Other tools and libraries used include:
+
+- [ShadCN/UI](https://ui.shadcn.com/) for UI components
 - [Mantine](https://mantine.dev/) for UI components
-- [Vite](https://vitejs.dev/) for fast development and builds  
+- [Vite](https://vitejs.dev/) for fast development and builds
 
 ## Getting Started
 
@@ -50,7 +51,6 @@ The application will be available at [http://localhost:3000](http://localhost:30
 To build the production-ready files:
 
 Using bun:
-
 
 ```bash
 bun run build

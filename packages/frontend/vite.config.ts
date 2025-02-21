@@ -32,7 +32,7 @@ export default defineConfig({
       '/api/filepaths': 'http://127.0.0.1:8000',
       '/api/sidebar': 'http://127.0.0.1:8000',
       '/api/config': 'http://127.0.0.1:8000',
-      '/api/html': 'http://127.0.0.1:8000'
+      '/api/html': 'http://127.0.0.1:8000',
     },
     fs: {
       strict: false,

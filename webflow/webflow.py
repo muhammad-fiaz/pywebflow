@@ -101,4 +101,3 @@ def launch(attributes=True):
         reload=args.reload,
         log_config=custom_log_config,
     )
-
