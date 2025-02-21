@@ -7,7 +7,6 @@ The frontend is built with [React](https://react.dev/), [ReactFlow](https://reac
 Other tools and libraries used include:  
 - [ShadCN/UI](https://ui.shadcn.com/) for UI components  
 - [Mantine](https://mantine.dev/) for UI components
-- [Axios](https://axios-http.com/) for making API requests
 - [Vite](https://vitejs.dev/) for fast development and builds  
 
 ## Getting Started
