@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
 [project]
 name = "pywebflow"
 description = "A Python-based web framework to create flow-based workflows."
@@ -52,16 +56,16 @@ dev = [
 [tool.hatch.build.targets.sdist]
 ignore-vcs = true
 
-[build-system]
-requires = ["hatchling", "uv-dynamic-versioning"]
-build-backend = "hatchling.build"
-
 [tool.hatch.build]
+exclude = [
+    "packages/**/*",
+]
 include = [
   "webflow/**/*",
+  "scripts/**/*",
   "pywebflow/**/*",
   "README.md",
-  "LICENSE"
+  "LICENSE",
 ]
 
 [tool.hatch.build.targets.wheel]
