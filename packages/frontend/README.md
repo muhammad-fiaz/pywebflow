@@ -1,13 +1,21 @@
 # PyWebflow - Frontend
 
-This is the frontend package for **PyWebflow**, a Python-based web framework for creating flow-based workflows. It allows users to easily build and manage node-based projects using native Python. The frontend is built with [ReactFlow](https://reactflow.dev/) and React to deliver an intuitive visual editor.
+This is the frontend for **PyWebflow**, a visual programming tool for building web applications.  
+
+The frontend is built with [React](https://react.dev/), [ReactFlow](https://reactflow.dev/), [Tailwind CSS](https://tailwindcss.com/), and [TypeScript](https://www.typescriptlang.org/). It provides a user-friendly interface for creating and managing flow-based workflows.  
+
+Other tools and libraries used include:  
+- [ShadCN/UI](https://ui.shadcn.com/) for UI components  
+- [Mantine](https://mantine.dev/) for UI components
+- [Axios](https://axios-http.com/) for making API requests
+- [Vite](https://vitejs.dev/) for fast development and builds  
 
 ## Getting Started
 
 ### Prerequisites
 
 - **Node.js** (v16 or later is recommended)
-- **npm** or **yarn**
+- **Bun** (Recommended for managing npm scripts)
 
 ### Installation
 
@@ -20,13 +28,7 @@ This is the frontend package for **PyWebflow**, a Python-based web framework for
 
 2. **Install dependencies:**
 
-   Using npm:
-
-   ```bash
-   npm install
-   ```
-
-   Or using bun:
+   Using bun:
 
    ```bash
    bun install
@@ -36,13 +38,7 @@ This is the frontend package for **PyWebflow**, a Python-based web framework for
 
 Start the development server with:
 
-Using npm:
-
-```bash
-npm start
-```
-
-Or using bun:
+Using bun:
 
 ```bash
 bun start
@@ -54,13 +50,8 @@ The application will be available at [http://localhost:3000](http://localhost:30
 
 To build the production-ready files:
 
-Using npm:
+Using bun:
 
-```bash
-npm run build
-```
-
-Or using bun:
 
 ```bash
 bun run build
