@@ -66,17 +66,17 @@ class Metadata(BaseModel):
     ogImage: Optional[str] = None
 
 
-class SideBar(BaseModel):
-    title: str
-    icon: str
-    url: str
 
+class SideBar(BaseModel):
+    title: Optional[str] = None
+    icon: Optional[str] = None
+    url: Optional[str] = None
 
 class SidebarResponse(BaseModel):
-    visible: bool
-    label: str
-    default_open: bool
-    items: List[SideBar]
+    visible: Optional[bool] = None
+    label: Optional[str] = None
+    default_open: Optional[bool] = None
+    items: Optional[List[SideBar]] = None  # Optional list
 
 
 class ReactFlowConfig(BaseModel):

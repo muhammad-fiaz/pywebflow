@@ -1,8 +1,12 @@
 import { defineConfig, PluginOption } from 'vite';
-import react from '@vitejs/plugin-react';
+import react from "@vitejs/plugin-react-swc";
 import path from 'path';
 import tailwindcss from '@tailwindcss/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+const API_BASE_URL = isProduction ? 'https://your-production-api.com' : 'http://127.0.0.1:8000';
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), visualizer() as PluginOption],
@@ -15,24 +19,24 @@ export default defineConfig({
     outDir: path.resolve(__dirname, '../../webflow/frontend/dist'),
     emptyOutDir: true,
     minify: 'esbuild',
-    sourcemap: false,
+    sourcemap: !isProduction,
     cssCodeSplit: true,
+    cssMinify: 'esbuild',
+    assetsInlineLimit: 0,
     terserOptions: {
       compress: {
-        drop_console: true,
-        drop_debugger: true,
+        drop_console: isProduction,
+        drop_debugger: isProduction,
       },
     },
   },
   server: {
     proxy: {
-      '/api/nodes': 'http://127.0.0.1:8000',
-      '/api/edges': 'http://127.0.0.1:8000',
-      '/api/status': 'http://127.0.0.1:8000',
-      '/api/filepaths': 'http://127.0.0.1:8000',
-      '/api/sidebar': 'http://127.0.0.1:8000',
-      '/api/config': 'http://127.0.0.1:8000',
-      '/api/html': 'http://127.0.0.1:8000',
+      '/api': {
+        target: API_BASE_URL,
+        changeOrigin: true,
+        secure: isProduction,
+      },
     },
     fs: {
       strict: false,

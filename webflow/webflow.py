@@ -3,12 +3,11 @@ from typing import Dict, List
 
 from webflow.ascii import ascii_art
 from webflow.logly import logly
-from webflow.modules import parse_arguments, app
-from webflow.modules.routes import WebFlow_API, Metadata
+from webflow.modules import parse_arguments, WebFlow_API
 
 
 def get_app():
-    return app
+    return WebFlow_API.app
 
 
 def add_node(node_id: str, label: str, position: Dict[str, float], **kwargs):
@@ -53,6 +52,7 @@ def config(**kwargs):
 
 def launch(attributes=True):
     args = parse_arguments()
+    WebFlow_API.initialize()
     if attributes:
         print(ascii_art)
 
