@@ -1,1 +1,4 @@
-bun test
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+bun run format:frontend && bun run format:api

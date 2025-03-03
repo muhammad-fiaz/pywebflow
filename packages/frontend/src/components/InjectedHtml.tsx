@@ -18,9 +18,7 @@ const InjectedHtml: React.FC = () => {
   return (
     <div>
       {htmlContents.map((htmlContent, index) => (
-        <div key={index}>
-          {parse(DOMPurify.sanitize(htmlContent))}
-        </div>
+        <div key={index}>{parse(DOMPurify.sanitize(htmlContent))}</div>
       ))}
     </div>
   );

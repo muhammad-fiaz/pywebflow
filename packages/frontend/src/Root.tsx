@@ -10,7 +10,9 @@ import { getConfig } from '@pywebflow/api/src/config';
 
 // Lazy load components with preloading
 const Layout = React.lazy(() => import(/* webpackPreload: true */ './Layout'));
-const MetaData = React.lazy(() => import(/* webpackPreload: true */ './components/Metadata'));
+const MetaData = React.lazy(
+  () => import(/* webpackPreload: true */ './components/Metadata'),
+);
 
 // Preload critical components asynchronously
 const preloadAssets = () => {
@@ -22,7 +24,9 @@ preloadAssets();
 
 const Root = () => {
   const [mounted, setMounted] = useState(false);
-  const [defaultTheme, setDefaultTheme] = useState<'light' | 'dark' | 'system'>('system');
+  const [defaultTheme, setDefaultTheme] = useState<'light' | 'dark' | 'system'>(
+    'system',
+  );
 
   useEffect(() => {
     // Fetch config data
@@ -45,7 +49,12 @@ const Root = () => {
 
   return (
     <HelmetProvider>
-      <ThemeProvider attribute="class" defaultTheme={defaultTheme} enableSystem disableTransitionOnChange>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme={defaultTheme}
+        enableSystem
+        disableTransitionOnChange
+      >
         <MantineProvider>
           <Theme>
             {mounted && (

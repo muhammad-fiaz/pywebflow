@@ -10,7 +10,9 @@ export const injectAssets = async (): Promise<void> => {
       return;
     }
 
-    const cssFiles = Array.isArray(assets.css) ? assets.css.filter(Boolean) : [];
+    const cssFiles = Array.isArray(assets.css)
+      ? assets.css.filter(Boolean)
+      : [];
     const jsFiles = Array.isArray(assets.js) ? assets.js.filter(Boolean) : [];
 
     // Inject CSS files
@@ -35,7 +37,6 @@ export const injectAssets = async (): Promise<void> => {
         console.log(`Injected JS: ${src}`);
       }
     });
-
   } catch (error) {
     console.error('Error loading assets:', error);
   }

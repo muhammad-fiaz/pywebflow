@@ -5,16 +5,17 @@
     "packages/*"
   ],
   "scripts": {
+  "prepare": "husky install",
     "start:frontend": "bun run --cwd packages/frontend dev",
     "build:frontend": "bun run --cwd packages/frontend build",
     "lint:frontend": "bun run --cwd packages/frontend lint",
     "preview:frontend": "bun run --cwd packages/frontend preview",
-    "prepare": "husky",
     "format": "bun run format:frontend && bun run format:api",
     "format:frontend": "prettier --write 'packages/frontend/**/*.{js,ts,tsx,json,md,scss,css}'",
     "format:api": "prettier --write 'packages/api/**/*.{js,ts,tsx,json,md,scss,css}'"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
     "prettier": "3.5.1"
   },
   "packageManager": "bun@latest"

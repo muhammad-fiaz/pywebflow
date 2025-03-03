@@ -12,7 +12,9 @@ import {
 } from '@pywebflow/api/src/sidebar.ts';
 
 export function App() {
-  const [sidebarItems, setSidebarItems] = useState<SidebarResponse['items']>([]);
+  const [sidebarItems, setSidebarItems] = useState<SidebarResponse['items']>(
+    [],
+  );
   const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
   const [sidebarLabel, setSidebarLabel] = useState<string>('');
   const [defaultOpen, setDefaultOpen] = useState<boolean>(false);
