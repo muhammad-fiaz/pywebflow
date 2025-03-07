@@ -10,6 +10,7 @@ from webflow.webflow import (
     sidebar,
     config,
     add_html_content,
+block
 )
 from webflow.__version__ import version as __version__
 
@@ -26,4 +27,5 @@ __all__ = [
     "config",
     "add_html_content",
     "__version__",
+    "block",
 ]

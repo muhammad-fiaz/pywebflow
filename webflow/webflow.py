@@ -1,5 +1,6 @@
 import uvicorn
 from typing import Dict, List
+from contextlib import contextmanager
 
 from webflow.ascii import ascii_art
 from webflow.logly import logly
@@ -50,11 +51,21 @@ def config(**kwargs):
     WebFlow_API.set_config(**kwargs)
 
 
-def launch(attributes=True):
+@contextmanager
+def block(route: str):
+    try:
+        block_instance = WebFlow_API.route(route)
+        yield block_instance
+    finally:
+        pass  # Cleanup if needed
+
+
+def launch(attributes=True, authentication: Dict[str, str] = None):
     args = parse_arguments()
     WebFlow_API.initialize()
     if attributes:
         print(ascii_art)
+    WebFlow_API.set_authentication(authentication)
 
     # Log launch details using Logly.
     logly.Config(color_enabled=True)

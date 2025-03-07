@@ -1,7 +1,8 @@
 import datetime
-from fastapi import APIRouter
+
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
-from typing import List
+from typing import List, Dict
 
 from webflow.modules.types import NodeData, EdgeData, Metadata, SidebarResponse, HtmlContent, ReactFlowConfig
 from webflow.modules.webflow_api import WebFlow_API
@@ -34,7 +35,6 @@ async def get_sidebar():
         items=items
     )
 
-
 @router.get("/api/metadata", response_model=Metadata)
 async def get_metadata():
     return WebFlow_API.metadata
@@ -65,5 +65,9 @@ async def get_file_paths():
 async def get_static_file(filename: str):
     return WebFlow_API.serve_file(filename)
 
-WebFlow_API.app.include_router(router)
+@router.post("/api/auth")
+async def set_authentication():
+    return {"status": "success", "message": "Authentication credentials set successfully"}
 
+
+WebFlow_API.app.include_router(router)

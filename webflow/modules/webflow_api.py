@@ -14,6 +14,7 @@ from webflow.modules.types import (
     SideBar,
     ReactFlowConfig,
 )
+from webflow.modules.auth import encrypt_credentials, decrypt_credentials  # Import encryption functions
 
 
 def ensure_initialized(method):
@@ -40,6 +41,7 @@ class WebFlow_API:
     static_dir: Optional[str] = None
     initialized = False
     html_store: List[str] = []
+    authentication: Optional[Dict[str, str]] = None
 
     @classmethod
     def initialize(cls):
@@ -177,7 +179,21 @@ class WebFlow_API:
         return cls.html_store
 
     @classmethod
-    def launch(cls, host: str = "127.0.0.1", port: int = 8000, reload: bool = True):
+    def launch(cls, host: str = "127.0.0.1", port: int = 8000, reload: bool = True, authentication: Dict[str, str] = None):
+        if authentication:
+            cls.set_authentication(authentication)
         cls.initialize()
         import uvicorn
         uvicorn.run(cls.app, host=host, port=port, reload=reload)
+
+    @classmethod
+    def set_authentication(cls, authentication: Dict[str, str]):
+        cls.authentication = authentication
+
+    @classmethod
+    def route(cls, page):
+        pass
+
+    @classmethod
+    def block(cls, route):
+        pass
