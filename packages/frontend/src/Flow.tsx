@@ -1,7 +1,7 @@
 import ControlsComp from './components/Controls.tsx';
 import MinimapComp from './components/Minimap.tsx';
 import BackgroundWrapper from './components/BackgroundWrapper.tsx';
-import InjectedHtml from "./components/InjectedHtml.tsx";
+import InjectedHtml from './components/InjectedHtml.tsx';
 
 export function Flow() {
   return (

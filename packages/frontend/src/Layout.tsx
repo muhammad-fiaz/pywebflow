@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { RouterProvider } from "react-router-dom";
-import useDynamicRoutes from "./routes"; // Import the hook to get the dynamic routes
-import Loading from "./components/Loading";
-import { getServerStatus } from "@pywebflow/api/src/status";
+import { useState, useEffect } from 'react';
+import { RouterProvider } from 'react-router-dom';
+import useDynamicRoutes from './routes'; // Import the hook to get the dynamic routes
+import Loading from './components/Loading';
+import { getServerStatus } from '@pywebflow/api/src/status';
 
 export default function Layout() {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +31,7 @@ export default function Layout() {
   const checkServerStatus = async () => {
     try {
       const status = await getServerStatus();
-      if (status.status === "online") {
+      if (status.status === 'online') {
         setServerConnected(true);
         setTimeout(() => {
           setProgress(100);
@@ -48,7 +48,13 @@ export default function Layout() {
   };
 
   if (isLoading || !router) {
-    return <Loading progress={progress} isServerConnected={serverConnected} showServerMessage={checkingStatus && !serverConnected} />;
+    return (
+      <Loading
+        progress={progress}
+        isServerConnected={serverConnected}
+        showServerMessage={checkingStatus && !serverConnected}
+      />
+    );
   }
 
   return <RouterProvider router={router} />;

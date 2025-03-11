@@ -1,7 +1,7 @@
-import { Edge, Node, ReactFlow, ReactFlowProps } from "@xyflow/react";
-import React, { useState, useEffect } from "react";
-import Flow from "./Flow";
-import { useTheme } from "next-themes";
+import { Edge, Node, ReactFlow, ReactFlowProps } from '@xyflow/react';
+import React, { useState, useEffect } from 'react';
+import Flow from './Flow';
+import { useTheme } from 'next-themes';
 
 interface AppProps {
   metadata?: {
@@ -15,12 +15,12 @@ const App: React.FC<AppProps> = ({ nodes, edges }) => {
   const { theme, systemTheme } = useTheme();
   const [config, setConfig] = useState<Partial<ReactFlowProps>>({});
 
-  const currentTheme = theme === "system" ? systemTheme : theme;
+  const currentTheme = theme === 'system' ? systemTheme : theme;
 
   useEffect(() => {
     setConfig((prevConfig) => ({
       ...prevConfig,
-      colorMode: currentTheme === "dark" ? "dark" : "light",
+      colorMode: currentTheme === 'dark' ? 'dark' : 'light',
     }));
   }, [currentTheme]);
 
@@ -40,7 +40,7 @@ const App: React.FC<AppProps> = ({ nodes, edges }) => {
     ...edge,
     animated: edge.animated ?? false,
     style: {
-      stroke: edge.style?.stroke || "#000",
+      stroke: edge.style?.stroke || '#000',
     },
   }));
 
