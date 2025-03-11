@@ -1,39 +1,48 @@
-import { createBrowserRouter, RouteObject } from 'react-router-dom';
-import { lazy, Suspense, useEffect, useState } from 'react';
-import { LoadingPage } from './components/loader.tsx';
-import axios from 'axios';
+import { createBrowserRouter, RouteObject } from "react-router-dom";
+import { lazy, useEffect, useState } from "react";
+import axios from "axios";
+import App from "./App"; // Dynamic component
+import { Node, Edge } from "@xyflow/react"; // Import Node and Edge from @xyflow/react
 
-const NotFound = lazy(() => import('./NotFound.tsx'));
+const NotFound = lazy(() => import("./NotFound.tsx"));
 
-const fetchRoutes = async () => {
-  try {
-    const response = await axios.get('/api/routes'); // Fetch route config from API
-    return response.data;
-  } catch (error) {
-    console.error('Failed to fetch routes', error);
-    return [];
-  }
-};
+interface PageData {
+  metadata?: {
+    title?: string;
+  };
+  nodes: Node[];
+  edges: Edge[];
+}
 
-const DynamicRoutes = () => {
-  const [routes, setRoutes] = useState<RouteObject[]>([]);
+const useDynamicRoutes = () => {
+  const [router, setRouter] = useState<ReturnType<typeof createBrowserRouter> | null>(null);
 
   useEffect(() => {
-    fetchRoutes().then((data) => {
-      const mappedRoutes = data.map((route: any) => ({
-        path: route.path,
-        element: (
-          <Suspense fallback={<LoadingPage />}>
-            <route.component />
-          </Suspense>
-        ),
-      }));
-      setRoutes(mappedRoutes);
-    });
+    const fetchPages = async () => {
+      try {
+        const response = await axios.get<Record<string, PageData>>("/api/pages");
+        const pages = response.data;
+
+        const dynamicRoutes: RouteObject[] = Object.keys(pages).map((path) => ({
+          path,
+          element: <App metadata={pages[path].metadata} nodes={pages[path].nodes} edges={pages[path].edges} />,
+        }));
+
+        if (!pages["/"]) {
+          dynamicRoutes.unshift({ path: "/", element: <NotFound /> });
+        }
+
+        const router = createBrowserRouter([...dynamicRoutes, { path: "*", element: <NotFound /> }]);
+        setRouter(router);
+      } catch (error) {
+        console.error("Failed to fetch pages", error);
+      }
+    };
+
+    fetchPages();
   }, []);
 
-  return createBrowserRouter([...routes, { path: '*', element: <NotFound /> }]);
+  return router;
 };
 
-const router = DynamicRoutes();
-export default router;
+export default useDynamicRoutes;
