@@ -14,7 +14,7 @@ logging.basicConfig(
 logger = logging.getLogger("WebFlow")
 
 @contextmanager
-def page(route: str, metadata: Dict = None):
+def page(route: str = '/', metadata: Dict = None):
     """Registers a new page with metadata."""
     WebFlow_API.add_page(route, metadata or {})
     try:

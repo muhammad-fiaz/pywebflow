@@ -1,61 +1,90 @@
-import { Edge, Node, ReactFlow, ReactFlowProps } from '@xyflow/react';
-import React, { useState, useEffect } from 'react';
+import { Edge, Node, ReactFlow, ReactFlowProps, addEdge, Connection, useNodesState, useEdgesState } from '@xyflow/react';
+import React, { useEffect } from 'react';
 import Flow from './Flow';
 import { useTheme } from 'next-themes';
+import { create } from 'zustand';
 
 interface AppProps {
-  metadata?: {
-    title?: string;
+  pageData: {
+    metadata?: {
+      title?: string;
+    };
+    nodes: Node[];
+    edges: Edge[];
   };
-  nodes: Node[];
-  edges: Edge[];
 }
 
-const App: React.FC<AppProps> = ({ nodes, edges }) => {
-  const { theme, systemTheme } = useTheme();
-  const [config, setConfig] = useState<Partial<ReactFlowProps>>({});
-
-  const currentTheme = theme === 'system' ? systemTheme : theme;
-
-  useEffect(() => {
-    setConfig((prevConfig) => ({
-      ...prevConfig,
-      colorMode: currentTheme === 'dark' ? 'dark' : 'light',
-    }));
-  }, [currentTheme]);
-
-  // Ensure each node has correct properties for interactivity
-  const transformedNodes = nodes.map((node) => ({
-    ...node,
-    draggable: undefined, // Remove invalid property
-    selectable: node.selectable ?? true,
-    connectable: node.connectable ?? true,
-    deletable: node.deletable ?? true,
-    dragging: node.dragging ?? false, // Allow dragging behavior
-    data: { ...node.data, label: node.data?.label || node.id },
-  }));
-
-  // Ensure each edge has default properties
-  const transformedEdges = edges.map((edge) => ({
-    ...edge,
-    animated: edge.animated ?? false,
-    style: {
-      stroke: edge.style?.stroke || '#000',
-    },
-  }));
-
-  const reactFlowProps: ReactFlowProps = {
-    ...config,
-    nodes: transformedNodes,
-    edges: transformedEdges,
+// Zustand store inside the same file
+const useFlowStore = create<{
+  nodes: Node[];
+  edges: Edge[];
+  config: Partial<ReactFlowProps>;
+  setNodes: (nodes: Node[]) => void;
+  setEdges: (updateFn: (edges: Edge[]) => Edge[]) => void;
+  setConfig: (config: Partial<ReactFlowProps>) => void;
+}>((set) => ({
+  nodes: [],
+  edges: [],
+  config: {
     fitView: true,
     nodesDraggable: true,
     nodesConnectable: true,
     proOptions: { hideAttribution: true },
+  },
+
+  setNodes: (nodes) => set(() => ({ nodes })),
+  setEdges: (updateFn) => set((state) => ({ edges: updateFn(state.edges) })),
+  setConfig: (config) => set((state) => ({ config: { ...state.config, ...config } })),
+}));
+
+const App: React.FC<AppProps> = ({ pageData }) => {
+  const { nodes: initialNodes = [], edges: initialEdges = [] } = pageData;
+  const { theme, systemTheme } = useTheme();
+  const { nodes, edges, config, setNodes, setEdges, setConfig } = useFlowStore();
+
+  useEffect(() => {
+    setNodes(
+      initialNodes.map((node) => ({
+        ...node,
+        draggable: true,
+data: { ...node.data, label: (node as { label?: string }).label || node.id }
+      }))
+    );
+
+    setEdges(() => initialEdges);
+  }, [initialNodes, initialEdges, setNodes, setEdges]);
+
+  // Sync theme changes
+  useEffect(() => {
+    const colorMode = (theme === 'system' ? systemTheme : theme) === 'dark' ? 'dark' : 'light';
+    setConfig({ colorMode });
+  }, [theme, systemTheme, setConfig]);
+
+  // Handle connection event
+  const onConnect = (params: Connection) => {
+    setEdges((eds) => addEdge({ ...params, id: `edge-${params.source}-${params.target}`, animated: true }, eds));
+  };
+
+  // Hook-based state management for ReactFlow changes
+  const [flowNodes, setFlowNodes, onNodesChange] = useNodesState(nodes);
+  const [flowEdges, setFlowEdges, onEdgesChange] = useEdgesState(edges);
+
+  useEffect(() => {
+    setFlowNodes(nodes);
+    setFlowEdges(edges);
+  }, [nodes, edges]);
+
+  const reactFlowProps: ReactFlowProps = {
+    ...config,
+    nodes: flowNodes,
+    edges: flowEdges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
   };
 
   return (
-    <div className={`${currentTheme} w-full h-full`}>
+    <div className={`${theme} w-full h-full`}>
       <ReactFlow {...reactFlowProps} className="h-full w-full">
         <Flow />
       </ReactFlow>

@@ -28,7 +28,6 @@ class WebFlow_API:
     initialized = False
     pages: Dict[str, Dict] = {}
 
-
     @classmethod
     def initialize(cls):
         if cls.initialized:
@@ -52,7 +51,7 @@ class WebFlow_API:
     def add_node(cls, node_id: str, label: str, position: Dict[str, float], **kwargs):
         """Adds a node to the last registered page."""
         if not cls.pages:
-            raise ValueError("No page registered! Use 'with page(route=...)' first.")
+            cls.add_page('/', {})
         last_page = list(cls.pages.keys())[-1]
         cls.pages[last_page]["nodes"].append(
             {"id": node_id, "label": label, "position": position, **kwargs}
@@ -62,12 +61,11 @@ class WebFlow_API:
     def add_edge(cls, edge_id: str, source: str, target: str, **kwargs):
         """Adds an edge to the last registered page."""
         if not cls.pages:
-            raise ValueError("No page registered! Use 'with page(route=...)' first.")
+            cls.add_page('/', {})
         last_page = list(cls.pages.keys())[-1]
         cls.pages[last_page]["edges"].append(
             {"id": edge_id, "source": source, "target": target, **kwargs}
         )
-
 
     @classmethod
     def launch(cls, host: str = "127.0.0.1", port: int = 8000, reload: bool = True, authentication: Dict[str, str] = None):
@@ -80,4 +78,3 @@ class WebFlow_API:
     @classmethod
     def set_authentication(cls, authentication: Dict[str, str]):
         cls.authentication = authentication
-

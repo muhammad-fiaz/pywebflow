@@ -1,8 +1,9 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
-import { lazy, useEffect, useState } from 'react';
+import { lazy, useEffect } from 'react';
 import axios from 'axios';
 import App from './App'; // Dynamic component
-import { Node, Edge } from '@xyflow/react'; // Import Node and Edge from @xyflow/react
+import { Node, Edge } from '@xyflow/react';
+import { create } from 'zustand';
 
 const NotFound = lazy(() => import('./NotFound.tsx'));
 
@@ -14,45 +15,52 @@ interface PageData {
   edges: Edge[];
 }
 
+interface PageStore {
+  pages: Record<string, PageData>;
+  router: ReturnType<typeof createBrowserRouter> | null;
+  setPages: (pages: Record<string, PageData>) => void;
+  setRouter: (router: ReturnType<typeof createBrowserRouter>) => void;
+}
+
+const usePageStore = create<PageStore>((set) => ({
+  pages: {},
+  router: null,
+  setPages: (pages) => set(() => ({ pages })),
+  setRouter: (router) => set(() => ({ router })),
+}));
+
 const useDynamicRoutes = () => {
-  const [router, setRouter] = useState<ReturnType<
-    typeof createBrowserRouter
-  > | null>(null);
+  const {router, setPages, setRouter } = usePageStore();
 
   useEffect(() => {
     const fetchPages = async () => {
       try {
-        const response =
-          await axios.get<Record<string, PageData>>('/api/pages');
-        const pages = response.data;
+        const response = await axios.get<Record<string, PageData>>('/api/pages');
+        const fetchedPages = response.data;
+        setPages(fetchedPages);
 
-        const dynamicRoutes: RouteObject[] = Object.keys(pages).map((path) => ({
+        const dynamicRoutes: RouteObject[] = Object.keys(fetchedPages).map((path) => ({
           path,
-          element: (
-            <App
-              metadata={pages[path].metadata}
-              nodes={pages[path].nodes}
-              edges={pages[path].edges}
-            />
-          ),
+          element: <App pageData={fetchedPages[path]} />,
         }));
 
-        if (!pages['/']) {
+        if (!fetchedPages['/']) {
           dynamicRoutes.unshift({ path: '/', element: <NotFound /> });
         }
 
-        const router = createBrowserRouter([
+        const newRouter = createBrowserRouter([
           ...dynamicRoutes,
           { path: '*', element: <NotFound /> },
         ]);
-        setRouter(router);
+
+        setRouter(newRouter);
       } catch (error) {
         console.error('Failed to fetch pages', error);
       }
     };
 
     fetchPages();
-  }, []);
+  }, [setPages, setRouter]);
 
   return router;
 };
