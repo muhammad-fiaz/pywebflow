@@ -1,4 +1,13 @@
-import { Edge, Node, ReactFlow, ReactFlowProps, addEdge, Connection, useNodesState, useEdgesState } from '@xyflow/react';
+import {
+  Edge,
+  Node,
+  ReactFlow,
+  ReactFlowProps,
+  addEdge,
+  Connection,
+  useNodesState,
+  useEdgesState,
+} from '@xyflow/react';
 import React, { useEffect } from 'react';
 import Flow from './Flow';
 import { useTheme } from 'next-themes';
@@ -34,21 +43,26 @@ const useFlowStore = create<{
 
   setNodes: (nodes) => set(() => ({ nodes })),
   setEdges: (updateFn) => set((state) => ({ edges: updateFn(state.edges) })),
-  setConfig: (config) => set((state) => ({ config: { ...state.config, ...config } })),
+  setConfig: (config) =>
+    set((state) => ({ config: { ...state.config, ...config } })),
 }));
 
 const App: React.FC<AppProps> = ({ pageData }) => {
   const { nodes: initialNodes = [], edges: initialEdges = [] } = pageData;
   const { theme, systemTheme } = useTheme();
-  const { nodes, edges, config, setNodes, setEdges, setConfig } = useFlowStore();
+  const { nodes, edges, config, setNodes, setEdges, setConfig } =
+    useFlowStore();
 
   useEffect(() => {
     setNodes(
       initialNodes.map((node) => ({
         ...node,
         draggable: true,
-data: { ...node.data, label: (node as { label?: string }).label || node.id }
-      }))
+        data: {
+          ...node.data,
+          label: (node as { label?: string }).label || node.id,
+        },
+      })),
     );
 
     setEdges(() => initialEdges);
@@ -56,13 +70,23 @@ data: { ...node.data, label: (node as { label?: string }).label || node.id }
 
   // Sync theme changes
   useEffect(() => {
-    const colorMode = (theme === 'system' ? systemTheme : theme) === 'dark' ? 'dark' : 'light';
+    const colorMode =
+      (theme === 'system' ? systemTheme : theme) === 'dark' ? 'dark' : 'light';
     setConfig({ colorMode });
   }, [theme, systemTheme, setConfig]);
 
   // Handle connection event
   const onConnect = (params: Connection) => {
-    setEdges((eds) => addEdge({ ...params, id: `edge-${params.source}-${params.target}`, animated: true }, eds));
+    setEdges((eds) =>
+      addEdge(
+        {
+          ...params,
+          id: `edge-${params.source}-${params.target}`,
+          animated: true,
+        },
+        eds,
+      ),
+    );
   };
 
   // Hook-based state management for ReactFlow changes

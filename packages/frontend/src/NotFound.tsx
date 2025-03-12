@@ -18,7 +18,9 @@ export default function NotFound() {
       <p className="text-lg text-gray-600">
         Oops! The page you're looking for doesn't exist.
       </p>
-      <p className="text-sm text-gray-500">Redirecting to home in 5 seconds...</p>
+      <p className="text-sm text-gray-500">
+        Redirecting to home in 5 seconds...
+      </p>
       <Link
         to="/"
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"

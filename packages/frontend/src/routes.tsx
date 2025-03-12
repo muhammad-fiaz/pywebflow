@@ -30,19 +30,22 @@ const usePageStore = create<PageStore>((set) => ({
 }));
 
 const useDynamicRoutes = () => {
-  const {router, setPages, setRouter } = usePageStore();
+  const { router, setPages, setRouter } = usePageStore();
 
   useEffect(() => {
     const fetchPages = async () => {
       try {
-        const response = await axios.get<Record<string, PageData>>('/api/pages');
+        const response =
+          await axios.get<Record<string, PageData>>('/api/pages');
         const fetchedPages = response.data;
         setPages(fetchedPages);
 
-        const dynamicRoutes: RouteObject[] = Object.keys(fetchedPages).map((path) => ({
-          path,
-          element: <App pageData={fetchedPages[path]} />,
-        }));
+        const dynamicRoutes: RouteObject[] = Object.keys(fetchedPages).map(
+          (path) => ({
+            path,
+            element: <App pageData={fetchedPages[path]} />,
+          }),
+        );
 
         if (!fetchedPages['/']) {
           dynamicRoutes.unshift({ path: '/', element: <NotFound /> });
