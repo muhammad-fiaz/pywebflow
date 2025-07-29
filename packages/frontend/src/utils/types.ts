@@ -1,5 +1,9 @@
 import React from 'react';
 
+export type LoadingComponentProps = {
+  remSize: number;
+};
+
 // NodeData Type
 export interface NodeData {
   id: string;

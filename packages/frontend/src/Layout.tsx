@@ -34,12 +34,18 @@ export default function Layout() {
     const loadInitialConfig = async () => {
       try {
         const fetchedConfig = await getConfig();
-        if (fetchedConfig[0].colorMode) {
-          setTheme(fetchedConfig[0].colorMode);
+
+        if (Array.isArray(fetchedConfig) && fetchedConfig.length > 0) {
+          if (fetchedConfig[0]?.colorMode) {
+            setTheme(fetchedConfig[0].colorMode);
+          }
+          setConfig(fetchedConfig[0]);
+        } else {
+          setConfig({});
         }
-        setConfig(fetchedConfig[0]);
       } catch (error) {
         console.error('Error fetching initial config:', error);
+        setConfig({}); // Fallback to empty object on error
       }
     };
 

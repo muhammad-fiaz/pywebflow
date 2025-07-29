@@ -1,14 +1,14 @@
 import uvicorn
 from typing import Dict, List
+from contextlib import contextmanager
 
 from webflow.ascii import ascii_art
 from webflow.logly import logly
-from webflow.modules import parse_arguments, app
-from webflow.modules.routes import WebFlow_API, Metadata
+from webflow.modules import parse_arguments, WebFlow_API
 
 
 def get_app():
-    return app
+    return WebFlow_API.app
 
 
 def add_node(node_id: str, label: str, position: Dict[str, float], **kwargs):
@@ -51,10 +51,21 @@ def config(**kwargs):
     WebFlow_API.set_config(**kwargs)
 
 
-def launch(attributes=True):
+@contextmanager
+def block(route: str):
+    try:
+        block_instance = WebFlow_API.route(route)
+        yield block_instance
+    finally:
+        pass  # Cleanup if needed
+
+
+def launch(attributes=True, authentication: Dict[str, str] = None):
     args = parse_arguments()
+    WebFlow_API.initialize()
     if attributes:
         print(ascii_art)
+    WebFlow_API.set_authentication(authentication)
 
     # Log launch details using Logly.
     logly.Config(color_enabled=True)

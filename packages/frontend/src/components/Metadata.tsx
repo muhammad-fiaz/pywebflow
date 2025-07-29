@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import getMetadata, { Metadata } from '@pywebflow/api/src/metadata.ts';
+import { injectAssets } from '../hooks/assets.ts';
+
 const MetaData: React.FC = () => {
   const [metadata, setMetadata] = useState<Metadata>({
     title: 'PyWebflow',
@@ -8,7 +10,9 @@ const MetaData: React.FC = () => {
   });
 
   useEffect(() => {
-    const fetchMetadata = async () => {
+    const loadMetadataAndAssets = async () => {
+      await injectAssets(); // Load CSS & JS before fetching metadata
+
       try {
         const data = await getMetadata();
         setMetadata((prevMetadata) => ({
@@ -20,7 +24,7 @@ const MetaData: React.FC = () => {
       }
     };
 
-    fetchMetadata();
+    loadMetadataAndAssets();
   }, []);
 
   return (

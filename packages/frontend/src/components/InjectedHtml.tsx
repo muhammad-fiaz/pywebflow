@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchHtmlContent } from '@pywebflow/api/src/html';
+import DOMPurify from 'dompurify';
+import parse from 'html-react-parser';
 
 const InjectedHtml: React.FC = () => {
   const [htmlContents, setHtmlContents] = useState<string[]>([]);
@@ -14,13 +16,9 @@ const InjectedHtml: React.FC = () => {
   }, []);
 
   return (
-    <div className="injected-html-container">
+    <div>
       {htmlContents.map((htmlContent, index) => (
-        <div
-          key={index}
-          className="injected-html"
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
+        <div key={index}>{parse(DOMPurify.sanitize(htmlContent))}</div>
       ))}
     </div>
   );

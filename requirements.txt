@@ -4,6 +4,8 @@ annotated-types==0.7.0
     # via pydantic
 anyio==4.8.0
     # via starlette
+bcrypt==4.3.0
+    # via passlib
 click==8.1.8
     # via uvicorn
 colorama==0.4.6
@@ -27,6 +29,8 @@ mdurl==0.1.2
     # via markdown-it-py
 packaging==24.2
     # via pytest
+passlib==1.7.4
+    # via pywebflow (pyproject.toml)
 pluggy==1.5.0
     # via pytest
 pydantic==2.10.4
@@ -37,7 +41,11 @@ pydantic-core==2.35.1
     # via pydantic
 pygments==2.19.1
     # via rich
+pyjwt==2.10.1
+    # via pywebflow (pyproject.toml)
 pytest==8.3.4
+    # via pywebflow (pyproject.toml)
+python-dotenv==1.0.1
     # via pywebflow (pyproject.toml)
 rich==13.9.4
     # via logly
