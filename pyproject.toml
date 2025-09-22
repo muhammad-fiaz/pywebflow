@@ -33,7 +33,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries"
 ]
 dependencies = [
-  "fastapi>=0.115.6,<0.116.0",
+  "fastapi>=0.115.6,<0.118.0",
   "logly @ git+https://github.com/muhammad-fiaz/logly.git@9920c22e118facaa5f3145df0a9b4b9e9b9a8839",
   "uvicorn>=0.34.0,<0.35.0",
 ]
